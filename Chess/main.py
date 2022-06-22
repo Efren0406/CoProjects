@@ -1,4 +1,4 @@
 def hola():
-    print("Hola Mundo")
+    print("Hola MotherFuckers")
 
 hola()
