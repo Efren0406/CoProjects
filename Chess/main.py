@@ -1,6 +1,13 @@
-# Librerias necesarias
-import pygame
-import tkinter
+import pygame, sys 
+pygame.init()
 
-# Loop principal
-window = pygame.set_mode(100,100)
+size = width, height = 300, 300
+
+screen = pygame.display.set_mode(size)
+
+while 1:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            sys.exit()
+
+    pygame.display.flip()
