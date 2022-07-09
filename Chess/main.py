@@ -1,8 +1,6 @@
-def hola():
-    print("Hola MotherFuckers")
+# Librerias necesarias
+import pygame
+import tkinter
 
-def hola2():
-    print("Hola guapos")
-
-hola()
-hola2()
+# Loop principal
+window = pygame.set_mode(100,100)
