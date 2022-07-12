@@ -19,6 +19,9 @@ class Pawn():
         black_pawn = pygame.transform.scale(black_pawn, (width - 25, height - 25))
         color = [white_pawn, black_pawn]
         screen.blit(color[self.color], (x + 12.5, y + 12.5))
+    
+    def draw_movements(self, screen, x, y, widht, height):
+        pass
 
 # Objeto de Alfil
 class Bishop():

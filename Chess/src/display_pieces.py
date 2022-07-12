@@ -1,5 +1,4 @@
 import pygame
-import pygame
 from pieces import *
 
 def display_pieces(screen, board, box_width, box_height, margin):
