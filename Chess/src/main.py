@@ -2,6 +2,7 @@ import pygame
 import sys
 from pieces import *
 from display_pieces import *
+from movements import *
 
 pygame.init()
 pygame.display.set_caption('Show Text')
@@ -42,7 +43,8 @@ board = [[Piece(screen, box_width, box_height, margin) for j in range(8)] for i 
 initial_position(board)
 
 # <<<<<<<
-
+circle = Circle(screen, box_width, box_height, margin)
+circle.draw(0,0)
 # >>>>>>> 
 while True:
     for event in pygame.event.get():

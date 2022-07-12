@@ -21,11 +21,11 @@ class Images:
                 image_margin = 5
             elif type == 'Q' or type == 'queen':
                 image = pygame.image.load(r'images\white_queen.png')
-                image = pygame.transform.scale(image, (width, height))
+                image = pygame.transform.scale(image, (width + 1, height + 1))
                 image_margin = 0
             elif type == 'K' or type == 'king':
                 image = pygame.image.load(r'images\white_king.png')
-                image = pygame.transform.scale(image, (width, height))
+                image = pygame.transform.scale(image, (width + 1, height + 1))
                 image_margin = 0
         if color == 'black':
             if type == 'p' or type == 'pawn':
@@ -46,11 +46,11 @@ class Images:
                 image_margin = 5
             elif type == 'Q' or type == 'queen':
                 image = pygame.image.load(r'images\black_queen.png')
-                image = pygame.transform.scale(image, (width, height))
+                image = pygame.transform.scale(image, (width + 1, height + 1))
                 image_margin = 0
             elif type == 'K' or type == 'king':
                 image = pygame.image.load(r'images\black_king.png')
-                image = pygame.transform.scale(image, (width, height))
+                image = pygame.transform.scale(image, (width + 1, height + 1))
                 image_margin = 0
 
         return image, image_margin

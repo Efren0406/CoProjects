@@ -29,12 +29,12 @@ class Piece:
         i = int((self.x - self.margin)/self.width)
         j = int((self.y - self.margin)/self.height)
 
-        if self.type != 'empty':
-            if self.type == 'p' or self.type == 'pawn':
-                if j == 1:
-
-            elif self.type == 'B' or self.type == 'bishop':
-            elif self.type == 'H' or self.type == 'horse':
-            elif self.type == 'T' or self.type == 'tower':
-            elif self.type == 'Q' or self.type == 'queen':
-            elif self.type == 'K' or self.type == 'king':
+        # if self.type != 'empty':
+        #     if self.type == 'p' or self.type == 'pawn':
+        #         if j == 1:
+                    
+        #     elif self.type == 'B' or self.type == 'bishop':
+        #     elif self.type == 'H' or self.type == 'horse':
+        #     elif self.type == 'T' or self.type == 'tower':
+        #     elif self.type == 'Q' or self.type == 'queen':
+        #     elif self.type == 'K' or self.type == 'king':
