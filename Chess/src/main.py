@@ -5,8 +5,9 @@ import sys
 pygame.init()
 pygame.display.set_caption('Show Text')
 
-size = width, height = 800, 800
-margin = 60
+screen_info = pygame.display.Info()
+size = width, height = screen_info.current_h - screen_info.current_h * .10, screen_info.current_h - screen_info.current_h * .10 
+margin = height * .075
 
 screen = pygame.display.set_mode(size)
 
@@ -19,13 +20,14 @@ brown_light = pygame.Color(153, 76, 0)
 white_light = pygame.Color(255, 255, 255)
 
 # Letras izquierda
-font = pygame.font.SysFont(None, 30)
+font = pygame.font.SysFont(None, int(margin/2))
+letter_space = height * .107142857143
 
 for i in range(8):
     text = font.render(chr(65 + i), True, white_light)
     num = font.render(str(i + 1), True, white_light)
-    screen.blit(text, (30, i * 85.7142857143 + 90))
-    screen.blit(num, (i * 85.7142857143 + 90,760))
+    screen.blit(text, (margin/2, i * letter_space + (3 * margin/2)))
+    screen.blit(num, (i * letter_space + (3 * margin/2), width - (2 * margin/3)))
 
 # Dibujar Tablero
 box_width = (width - 2*margin)/8
