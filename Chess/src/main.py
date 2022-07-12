@@ -1,6 +1,6 @@
 import pygame
-import pieces
 import sys
+from display_pieces import *
 
 pygame.init()
 pygame.display.set_caption('Show Text')
@@ -29,11 +29,17 @@ for i in range(8):
         color = [brown_bold, brown_light]
         pygame.draw.rect(screen, color[i%2 + j%2 - 1], pygame.Rect(i * box_width + margin, j * box_height + margin, box_width, box_height))
 
+<<<<<<< HEAD
 screen.blit(text, (10,10,20,20)) 
         
+=======
+init_position(screen, box_width, box_height, margin)
+
+>>>>>>> 04dbe2be9ea4406c28e7bcab85272d70d411228f
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             sys.exit()
+    
 
     pygame.display.flip()
