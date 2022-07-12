@@ -1,6 +1,6 @@
 import pygame
-import pieces
 import sys
+from display_pieces import *
 
 pygame.init()
 
@@ -23,10 +23,12 @@ for i in range(8):
         color = [brown_bold, brown_light]
         pygame.draw.rect(screen, color[i%2 + j%2 - 1], pygame.Rect(i * box_width + margin, j * box_height + margin, box_width, box_height))
 
+init_position(screen, box_width, box_height, margin)
 
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             sys.exit()
+    
 
     pygame.display.flip()
