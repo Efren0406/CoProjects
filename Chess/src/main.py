@@ -50,5 +50,8 @@ while True:
         if event.type == pygame.MOUSEBUTTONUP:
             i = int((mouse_position[0] - margin)//(width/8))
             j = int((mouse_position[1] - margin)//(height/8))
+            board[i][j] = 'x'
+    
+    display_pieces(screen, board, box_width, box_height, margin)
 
     pygame.display.flip()
