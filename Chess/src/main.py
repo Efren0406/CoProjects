@@ -13,7 +13,6 @@ margin = 60
 screen = pygame.display.set_mode(size)
 
 # Configuracion del tablero
-board = [['x' for i in range(8)] for j in range(8)]
 
 # Colores
 brown_border = pygame.Color(51, 25, 0)
@@ -83,7 +82,6 @@ for i in range(8):
         pygame.draw.rect(screen, color[i%2 + j%2 - 1], pygame.Rect(i * box_width + margin, j * box_height + margin, box_width, box_height))
         
 # <<<<<<<
-init_position(screen, board, box_width, box_height, margin)
 
 # >>>>>>> 
 while True:
@@ -95,6 +93,4 @@ while True:
             i = int((mouse_position[0] - margin)//box_width)
             j = int((mouse_position[1] - margin)//box_height)
     
-    display_pieces(screen, board, box_width, box_height, margin)
-
     pygame.display.flip()
