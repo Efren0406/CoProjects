@@ -1,4 +1,5 @@
 import pygame
+import pieces
 import sys
 
 pygame.init()
@@ -14,14 +15,7 @@ brown_light = pygame.Color(153, 76, 0)
 
 # Dibujar Tablero
 def build_board(board):
-
-
-# Piezas
-# imagenes
-white_pawn = pygame.image.load(r'Chess\white_pawn.png')
-white_pawn = pygame.transform.scale(white_pawn, (width/8, height/8))
-black_pawn = pygame.image.load(r'Chess\black_pawn.png')
-black_pawn = pygame.transform.scale(black_pawn, (width/8, height/8))
+    pass
 
 while True:
     for event in pygame.event.get():
