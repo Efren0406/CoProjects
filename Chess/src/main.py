@@ -2,6 +2,7 @@ from ast import Num
 import pygame
 import sys
 from display_pieces import *
+from selected_piece import *
 
 pygame.init()
 pygame.display.set_caption('Show Text')
@@ -80,7 +81,6 @@ for i in range(8):
     for j in range(8):
         color = [brown_bold, brown_light]
         pygame.draw.rect(screen, color[i%2 + j%2 - 1], pygame.Rect(i * box_width + margin, j * box_height + margin, box_width, box_height))
- 
         
 # <<<<<<<
 init_position(screen, board, box_width, box_height, margin)
@@ -92,9 +92,8 @@ while True:
         if event.type == pygame.QUIT:
             sys.exit()
         if event.type == pygame.MOUSEBUTTONUP:
-            i = int((mouse_position[0] - margin)//(width/8))
-            j = int((mouse_position[1] - margin)//(height/8))
-            board[i][j] = 'x'
+            i = int((mouse_position[0] - margin)//box_width)
+            j = int((mouse_position[1] - margin)//box_height)
     
     display_pieces(screen, board, box_width, box_height, margin)
 

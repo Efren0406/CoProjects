@@ -13,12 +13,19 @@ class Pawn():
         self.color = color
 
     def draw(self, screen, x, y, width, height):
+        self.x = x
+        self.y = y
+        self.width = width
+        self.height = height
         white_pawn = pygame.image.load(r'images\white_pawn.png')
         white_pawn = pygame.transform.scale(white_pawn, (width - 25, height - 25))
         black_pawn = pygame.image.load(r'images\black_pawn.png')
         black_pawn = pygame.transform.scale(black_pawn, (width - 25, height - 25))
         color = [white_pawn, black_pawn]
         screen.blit(color[self.color], (x + 12.5, y + 12.5))
+    
+    def draw_movements(self, screen, x, y, widht, height):
+        pass
 
 # Objeto de Alfil
 class Bishop():
@@ -30,6 +37,10 @@ class Bishop():
         self.color = color
 
     def draw(self, screen, x , y, width, height):
+        self.x = x
+        self.y = y
+        self.width = width
+        self.height = height
         white_bishop = pygame.image.load(r'images\white_bishop.png')
         white_bishop = pygame.transform.scale(white_bishop, (width - 10, height - 10))
         black_bishop = pygame.image.load(r'images\black_bishop.png')
@@ -47,6 +58,10 @@ class Horse():
         self.color = color
 
     def draw(self, screen, x , y, width, height):
+        self.x = x
+        self.y = y
+        self.width = width
+        self.height = height
         white_horse = pygame.image.load(r'images\white_horse.png')
         white_horse = pygame.transform.scale(white_horse, (width - 20, height - 20))
         black_horse = pygame.image.load(r'images\black_horse.png')
@@ -64,6 +79,10 @@ class Tower():
         self.color = color
 
     def draw(self, screen, x , y, width, height):
+        self.x = x
+        self.y = y
+        self.width = width
+        self.height = height
         white_tower = pygame.image.load(r'images\white_tower.png')
         white_tower = pygame.transform.scale(white_tower, (width - 20, height - 20))
         black_tower = pygame.image.load(r'images\black_tower.png')
@@ -81,6 +100,10 @@ class Queen():
         self.color = color
 
     def draw(self, screen, x , y, width, height):
+        self.x = x
+        self.y = y
+        self.width = width
+        self.height = height
         white_queen = pygame.image.load(r'images\white_queen.png')
         white_queen = pygame.transform.scale(white_queen, (width, height))
         black_queen = pygame.image.load(r'images\black_queen.png')
@@ -99,6 +122,10 @@ class King():
         self.color = color
 
     def draw(self, screen, x , y, width, height):
+        self.x = x
+        self.y = y
+        self.width = width
+        self.height = height
         white_king = pygame.image.load(r'images\white_king.png')
         white_king = pygame.transform.scale(white_king, (width, height))
         black_king = pygame.image.load(r'images\black_king.png')
