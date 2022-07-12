@@ -20,8 +20,13 @@ brown_light = pygame.Color(153, 76, 0)
 white_light = pygame.Color(255, 255, 255)
 
 # Letras
-font = pygame.font.Font('freesansbold.ttf', 30)
-text = font.render("A", False, (0, 0, 0))
+font = pygame.font.SysFont(None, 30)
+text = font.render('hello', True, white_light)
+screen.blit(text, (20,20))
+
+font = pygame.font.SysFont(None, 30)
+text = font.render('hello', True, white_light)
+screen.blit(text, (20,20))
 
 # Dibujar Tablero
 box_width = (width - 2*margin)/8
@@ -31,14 +36,12 @@ for i in range(8):
     for j in range(8):
         color = [brown_bold, brown_light]
         pygame.draw.rect(screen, color[i%2 + j%2 - 1], pygame.Rect(i * box_width + margin, j * box_height + margin, box_width, box_height))
-
-# <<<<<<< HEAD
-screen.blit(text, (10,10,20,20)) 
+ 
         
 # =======
 init_position(screen, board, box_width, box_height, margin)
 
-# >>>>>>> 04dbe2be9ea4406c28e7bcab85272d70d411228f
+# >>>>>>> 04dbe2be9ea4406c28e7bcab85272d70d411228f 
 while True:
     for event in pygame.event.get():
         mouse_position = pygame.mouse.get_pos()
