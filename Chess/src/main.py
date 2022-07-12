@@ -1,6 +1,7 @@
-from ast import Num
 import pygame
 import sys
+from pieces import *
+from display_pieces import *
 
 pygame.init()
 pygame.display.set_caption('Show Text')
@@ -10,8 +11,6 @@ size = width, height = screen_info.current_h - screen_info.current_h * .10, scre
 margin = height * .075
 
 screen = pygame.display.set_mode(size)
-
-# Configuracion del tablero
 
 # Colores
 brown_border = pygame.Color(51, 25, 0)
@@ -38,6 +37,10 @@ for i in range(8):
         color = [brown_bold, brown_light]
         pygame.draw.rect(screen, color[i%2 + j%2 - 1], pygame.Rect(i * box_width + margin, j * box_height + margin, box_width, box_height))
         
+# Dibujar Posicion Inicial de las Piezas
+board = [[Piece(screen, box_width, box_height, margin) for j in range(8)] for i in range(8)]
+initial_position(board)
+
 # <<<<<<<
 
 # >>>>>>> 
@@ -50,4 +53,6 @@ while True:
             i = int((mouse_position[0] - margin)//box_width)
             j = int((mouse_position[1] - margin)//box_height)
     
+    display_pieces(board)
+
     pygame.display.flip()
