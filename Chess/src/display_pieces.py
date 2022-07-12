@@ -37,12 +37,12 @@ def init_position(screen, box_width, box_height, margin):
     black_bishops[0].draw(screen, 2 * box_width + margin, margin, box_width, box_height)
     black_bishops[1].draw(screen, 5 * box_width + margin, margin, box_width, box_height)
 
-    # black_horses[0].draw(screen, box_width + margin, margin, box_width, box_height)
-    # black_horses[1].draw(screen, 6 * box_width + margin, margin, box_width, box_height)
+    black_horses[0].draw(screen, box_width + margin, margin, box_width, box_height)
+    black_horses[1].draw(screen, 6 * box_width + margin, margin, box_width, box_height)
 
-    # black_towers[0].draw(screen, margin, margin, box_width, box_height)
-    # black_towers[1].draw(screen, 7 * box_width + margin, margin, box_width, box_height)
+    black_towers[0].draw(screen, margin, margin, box_width, box_height)
+    black_towers[1].draw(screen, 7 * box_width + margin, margin, box_width, box_height)
 
-    # black_queen.draw(screen, 3 * box_width + margin, margin, box_width, box_height)
+    black_queen.draw(screen, 3 * box_width + margin, margin, box_width, box_height)
 
-    # black_king.draw(screen, 4 * box_width + margin, margin, box_width, box_height)
+    black_king.draw(screen, 4 * box_width + margin, margin, box_width, box_height)
