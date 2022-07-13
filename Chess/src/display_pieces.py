@@ -1,11 +1,11 @@
-def display_pieces(board):
+def display_pieces(board, turn, posible_movements):
     for i in range(8):
         for j in range(8):
             board[i][j].draw()
 
     for i in range(8):
         for j in range(8):
-            if board[i][j].selected: board[i][j].draw_movements(board)
+            if board[i][j].selected: board[i][j].draw_movements(turn, board, posible_movements)
 def initial_position(board):
     for i in range(8):
         board[i][6].set_type('white', 'p')
