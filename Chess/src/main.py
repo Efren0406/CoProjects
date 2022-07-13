@@ -60,17 +60,8 @@ initial_position(board)
 previous_piece = -1, -1
 
 # <<<<<<<
-board[1][3].set_type('black', 'p')
-board[1][3].en_passand = True
-board[0][3].set_type('white', 'p')
-board[4][3].set_type('black', 'p')
-board[4][3].en_passand = True
-board[3][3].set_type('white', 'p')
-board[2][3].set_type('black', 'p')
-board[2][3].en_passand = True
-board[6][4].set_type('black', 'p')
-board[6][3].en_passand = True
-board[7][4].set_type('white', 'p')
+board[3][3].set_type('white', 'B')
+board[4][4].set_type('black', 'T')
 # >>>>>>> 
 while True:
     screen.fill((0, 0, 0))
@@ -82,21 +73,30 @@ while True:
             i = int((mouse_position[0] - margin)//box_width)
             j = int((mouse_position[1] - margin)//box_height)
             if posible_movements[i][j] and selected_piece[0]:
-                board[selected_piece[1]][selected_piece[2]].move()
-            if previous_piece == (-1, -1) or previous_piece == (i, j) or not board[previous_piece[0]][previous_piece[1]].selected:
-                previous_piece = i, j
-                selected_piece[0] = board[i][j].select()
-                selected_piece[1] = i
-                selected_piece[2] = j
-            elif previous_piece != (i, j):
+                board[selected_piece[1]][selected_piece[2]].move(board, i, j)
+                board[selected_piece[1]][selected_piece[2]].set_type('white', 'empty')
                 board[previous_piece[0]][previous_piece[1]].select()
-                board[i][j].select()
-                selected_piece[0] = board[i][j].select()
-                selected_piece[1] = i
-                selected_piece[2] = j
-                previous_piece = i, j
+                if turns['color'] == 'white':
+                    turns['color'] = 'black'
+                else:
+                    turns['color'] = 'white'
+                turns['number'] += 1
+                posible_movements = [[False for x in range(8)] for y in range(8)]
+            if turns['color'] == board[i][j].color:
+                if previous_piece == (-1, -1) or previous_piece == (i, j) or not board[previous_piece[0]][previous_piece[1]].selected:
+                    previous_piece = i, j
+                    selected_piece[0] = board[i][j].select()
+                    selected_piece[1] = i
+                    selected_piece[2] = j
+                elif previous_piece != (i, j):
+                    board[previous_piece[0]][previous_piece[1]].select()
+                    board[i][j].select()
+                    selected_piece[0] = board[i][j].select()
+                    selected_piece[1] = i
+                    selected_piece[2] = j
+                    previous_piece = i, j
     
     draw_board()
-    display_pieces(board, turns, posible_movements)
+    posible_movements = display_pieces(board, turns, posible_movements)
 
     pygame.display.flip()
