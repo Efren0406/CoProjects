@@ -41,14 +41,15 @@ def draw_board():
         screen.blit(num, (i * letter_space + (3 * margin/2), width - (2 * margin/3)))
         
 # Dibujar Posicion Inicial de las Piezas
-board = [[Piece(screen, box_width, box_height, margin) for j in range(8)] for i in range(8)]
+board = [[Piece(screen, box_width, box_height, margin, i, j) for j in range(8)] for i in range(8)]
 initial_position(board)
 
 # Coordenadas pieza seleccionada
 previous_piece = -1, -1
 
 # <<<<<<<
-
+board[3][3].set_type('white', 'B')
+board[0][0].type = 'empty'
 # >>>>>>> 
 while True:
     screen.fill((0, 0, 0))
@@ -59,9 +60,7 @@ while True:
         if event.type == pygame.MOUSEBUTTONUP:
             i = int((mouse_position[0] - margin)//box_width)
             j = int((mouse_position[1] - margin)//box_height)
-            print(i, j)
-            print(previous_piece[0], previous_piece[1])
-            if previous_piece == (-1, -1) or previous_piece == (i, j):
+            if previous_piece == (-1, -1) or previous_piece == (i, j) or not board[previous_piece[0]][previous_piece[1]].selected:
                 previous_piece = i, j
                 board[i][j].select()
             elif previous_piece != (i, j):
