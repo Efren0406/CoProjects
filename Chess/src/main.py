@@ -48,6 +48,7 @@ initial_position(board)
 previous_piece = -1, -1
 
 # <<<<<<<
+board[6][4].set_type('white', 'B')
 board[3][2].set_type('white', 'p')
 board[2][3].set_type('black', 'p')
 # >>>>>>> 
