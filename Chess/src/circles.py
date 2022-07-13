@@ -17,7 +17,11 @@ class Circle:
 
         if color == 'white':
             self.color = pygame.Color(255, 255, 255)
-        else:
+        elif color == 'black':
             self.color = pygame.Color(0, 0, 0)
+        elif color == 'red':
+            self.color = pygame.Color(255, 0, 0)
+        else:
+            self.color = pygame.Color(0, 255, 0)
 
         pygame.draw.circle(self.screen, self.color, (self.x + self.width/2 , self.y + self.height/2), self.radius)

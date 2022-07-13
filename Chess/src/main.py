@@ -48,8 +48,8 @@ initial_position(board)
 previous_piece = -1, -1
 
 # <<<<<<<
-board[3][3].set_type('white', 'B')
-board[0][0].type = 'empty'
+board[3][2].set_type('white', 'p')
+board[2][3].set_type('black', 'p')
 # >>>>>>> 
 while True:
     screen.fill((0, 0, 0))

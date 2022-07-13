@@ -38,11 +38,27 @@ class Piece:
         circle = Circle(self.screen, self.width, self.height, self.margin)
 
         if self.type != 'empty':
+            # Movimientos del Peon
             if self.type == 'p' or self.type == 'pawn':
+                # Elige las coordenadas de los movimientos segun el color 
                 coordenate = self.j - 1 if self.color == 'white' else self.j + 1
-                circle.draw(self.color, self.i, coordenate)
+                if board[self.i][coordenate].type == 'empty':
+                    circle.draw(self.color, self.i, coordenate)
+                # Dibuja un segundo posible movimiento en caso de estar en la posicion inicial
                 if self.j == 1 or self.j == 6:
-                    circle.draw(self.color, self.i, coordenate - 1 if self.color == 'white' else coordenate + 1)
+                    if board[self.i][coordenate].type == 'empty':
+                        circle.draw(self.color, self.i, coordenate - 1 if self.color == 'white' else coordenate + 1)
+                # Movimientos de Captura
+                if self.i - 1 >= 0 and self.i + 1 <= 7:
+                    # Diagonales
+                    if self.color == 'white' and board[self.i - 1][coordenate].color == 'black':
+                        circle.draw('red', self.i - 1, coordenate)
+                    if self.color == 'white' and board[self.i + 1][coordenate].color == 'black':
+                        circle.draw('red', self.i + 1, coordenate)
+                    if self.color == 'black' and board[self.i + 1][coordenate].color == 'white':
+                        circle.draw('red', self.i + 1, coordenate)
+                    if self.color == 'black' and board[self.i + 1][coordenate].color == 'white':
+                        circle.draw('red', self.i + 1, coordenate)
             elif self.type == 'B' or self.type == 'bishop':
                 d1, d2, d3, d4 = True, True, True, True
                 for i in range(1, 8):
