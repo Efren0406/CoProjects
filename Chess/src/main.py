@@ -5,7 +5,7 @@ from display_pieces import *
 from circles import *
 
 pygame.init()
-pygame.display.set_caption('Show Text')
+pygame.display.set_caption('Chess')
 
 screen_info = pygame.display.Info()
 size = width, height = screen_info.current_h - screen_info.current_h * .10, screen_info.current_h - screen_info.current_h * .10 
@@ -14,7 +14,7 @@ margin = height * .075
 screen = pygame.display.set_mode(size)
 
 # Turnos
-turns = {'color': 'white', 'number': 0}
+turns = {'color': 'white', 'number': 0, 'previous move': (-1, -1)}
 
 # Posibles Movimientos de la pieza seleccionada
 posible_movements = [[False for i in range(8)] for j in range(8)]
@@ -72,8 +72,14 @@ while True:
         if event.type == pygame.MOUSEBUTTONUP:
             i = int((mouse_position[0] - margin)//box_width)
             j = int((mouse_position[1] - margin)//box_height)
+            print(i, j, posible_movements[i][j])
             if posible_movements[i][j] and selected_piece[0]:
                 board[selected_piece[1]][selected_piece[2]].move(board, i, j)
+                if board[selected_piece[1]][selected_piece[2]].type == 'p' or board[selected_piece[1]][selected_piece[2]].type == 'pawn':
+                    if abs(selected_piece[2] - j) == 2:
+                        board[i][j].en_passand = True
+                    if board[i][j + (1 if board[selected_piece[1]][selected_piece[2]].color == 'white' else -1)].en_passand and board[i][j + (1 if board[selected_piece[1]][selected_piece[2]].color == 'white' else -1)].color != board[selected_piece[1]][selected_piece[2]].color:
+                        board[i][j + (1 if board[selected_piece[1]][selected_piece[2]].color == 'white' else -1)].set_type('white', 'empty')
                 board[selected_piece[1]][selected_piece[2]].set_type('white', 'empty')
                 board[previous_piece[0]][previous_piece[1]].select()
                 if turns['color'] == 'white':
@@ -81,6 +87,7 @@ while True:
                 else:
                     turns['color'] = 'white'
                 turns['number'] += 1
+                turns['previous move'] = i, j
                 posible_movements = [[False for x in range(8)] for y in range(8)]
             if turns['color'] == board[i][j].color:
                 if previous_piece == (-1, -1) or previous_piece == (i, j) or not board[previous_piece[0]][previous_piece[1]].selected:
