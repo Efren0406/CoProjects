@@ -1,13 +1,13 @@
-#Librerias
+# Librerias
 import pygame
 import sys
 
-#Archivos locales
+# Archivos locales
 from pieces import *
 from display_pieces import *
 from circles import *
 
-#Inicializa la ventana
+# Inicializa la ventana
 pygame.init()
 pygame.display.set_caption('Chess')
 screen_info = pygame.display.Info()

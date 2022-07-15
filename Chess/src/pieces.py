@@ -1,9 +1,10 @@
 from load_images import *
 from circles import *
 
+
 class Piece:
     def __init__(self, screen, width, height, margin, i, j):
-#        Alto y ancho de las casillas
+        # Alto y ancho de las casillas
         self.width = width
         self.height = height
 #        Propiedades de la pieza
@@ -122,8 +123,6 @@ class Piece:
                             posible_movements[self.i + i][self.j + i * -1] = True
                         elif d2:
                             if board[self.i + i][self.j + i * -1].color != board[self.i][self.j].color and board[self.i + i][self.j + i * -1].type != 'empty':
-                            :q
-                            cls
                                 circle.draw('red', self.i + i, self.j + i * -1)
                                 posible_movements[self.i + i][self.j + i * -1] = True
                             d2 = False
