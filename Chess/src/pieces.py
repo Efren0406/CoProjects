@@ -1,7 +1,6 @@
 from load_images import *
 from circles import *
 
-
 class Piece:
     def __init__(self, screen, width, height, margin, i, j):
         # Alto y ancho de las casillas
@@ -144,34 +143,70 @@ class Piece:
                                 circle.draw('red', self.i + i, self.j + i)
                                 posible_movements[self.i + i][self.j + i] = True
                             d4 = False
-#            ==========
-#               Movimientos del Caballo
-#            ==========
+            # ==========
+               # Movimientos del Caballo
+            # ==========
             elif self.type == 'H' or self.type == 'horse':
+                # Izquierda
                 if self.i - 2 >= 0 and self.j + 1 <= 7:
-                    circle.draw(self.color if board[self.i - 2][self.j + 1].type == 'empty' else 'red', self.i - 2, self.j + 1)
-                    posible_movements[self.i - 2][self.j + 1] = True
+                    if board[self.i - 2][self.j + 1].type == 'empty':
+                        circle.draw(self.color, self.i - 2, self.j + 1)
+                        posible_movements[self.i - 2][self.j + 1] = True
+                    elif board[self.i - 2][self.j + 1].color != self.color:
+                        circle.draw('red', self.i - 2, self.j + 1)
+                        posible_movements[self.i - 2][self.j + 1] = True
                 if self.i - 2 >= 0 and self.j - 1 >= 0:
-                    circle.draw(self.color if board[self.i - 2][self.j - 1].type == 'empty' else 'red', self.i - 2, self.j - 1)
-                    posible_movements[self.i - 2][self.j - 1] = True
+                    if board[self.i - 2][self.j - 1].type == 'empty':
+                        circle.draw(self.color, self.i - 2, self.j - 1)
+                        posible_movements[self.i - 2][self.j - 1] = True
+                    elif board[self.i - 2][self.j - 1].color != self.color:
+                        circle.draw('red', self.i - 2, self.j - 1)
+                        posible_movements[self.i - 2][self.j - 1] = True
+                # Arriba
                 if self.i - 1 >= 0 and self.j + 2 <= 7:
-                    circle.draw(self.color if board[self.i - 1][self.j + 2].type == 'empty' else 'red', self.i - 1, self.j + 2)
-                    posible_movements[self.i - 1][self.j + 2] = True
+                    if board[self.i - 1][self.j + 2].type == 'empty':
+                        circle.draw(self.color, self.i - 1, self.j + 2)
+                        posible_movements[self.i - 1][self.j + 2] = True
+                    elif board[self.i - 1][self.j + 2].color != self.color:
+                        circle.draw('red', self.i - 1, self.j + 2)
+                        posible_movements[self.i - 1][self.j + 2] = True
                 if self.i + 1 <= 7 and self.j + 2 <= 7:
-                    circle.draw(self.color if board[self.i + 1][self.j + 2].type == 'empty' else 'red', self.i + 1, self.j + 2)
-                    posible_movements[self.i + 1][self.j + 2] = True
+                    if board[self.i + 1][self.j + 2].type == 'empty':
+                        circle.draw(self.color, self.i + 1, self.j + 2)
+                        posible_movements[self.i + 1][self.j + 2] = True
+                    elif board[self.i + 1][self.j + 2].color != self.color:
+                        circle.draw('red', self.i + 1, self.j + 2)
+                        posible_movements[self.i + 1][self.j + 2] = True
+                # Derecha
                 if self.i + 2 <= 7 and self.j - 1 >= 0:
-                    circle.draw(self.color if board[self.i + 2][self.j - 1].type == 'empty' else 'red', self.i + 2, self.j - 1)
-                    posible_movements[self.i + 2][self.j - 1] = True
-                if self.i + 2 <= 7 and self.j - 1 >= 0:
-                    circle.draw(self.color if board[self.i + 2][self.j - 1].type == 'empty' else 'red', self.i + 2, self.j + 1)
-                    posible_movements[self.i - 2][self.j + 1] = True
-                if self.i - 2 >= 0 and self.j + 1 <= 7:
-                    circle.draw(self.color if board[self.i - 2][self.j + 1].type == 'empty' else 'red', self.i - 2, self.j + 1)
-                    posible_movements[self.i - 2][self.j + 1] = True
-                if self.i - 2 >= 0 and self.j + 1 <= 7:
-                    circle.draw(self.color if board[self.i - 2][self.j + 1].type == 'empty' else 'red', self.i - 2, self.j + 1)
-                    posible_movements[self.i - 2][self.j + 1] = True
+                    if board[self.i + 2][self.j - 1].type == 'empty':
+                        circle.draw(self.color, self.i + 2, self.j - 1)
+                        posible_movements[self.i + 2][self.j - 1] = True
+                    elif board[self.i + 2][self.j - 1].color != self.color:
+                        circle.draw('red', self.i + 2, self.j - 1)
+                        posible_movements[self.i + 2][self.j - 1] = True
+                if self.i + 2 <= 7 and self.j + 1 <= 7:
+                    if board[self.i + 2][self.j + 1].type == 'empty':
+                        circle.draw(self.color, self.i + 2, self.j + 1)
+                        posible_movements[self.i + 2][self.j + 1] = True
+                    elif board[self.i + 2][self.j + 1].color != self.color:
+                        circle.draw('red', self.i + 2, self.j + 1)
+                        posible_movements[self.i + 2][self.j + 1] = True
+                # Abajo
+                if self.i - 1 >= 0 and self.j - 2 >= 0:
+                    if board[self.i - 1][self.j - 2].type == 'empty':
+                        circle.draw(self.color, self.i - 1, self.j - 2)
+                        posible_movements[self.i - 1][self.j - 2] = True
+                    elif board[self.i - 1][self.j - 2].color != self.color:
+                        circle.draw('red', self.i - 1, self.j - 2)
+                        posible_movements[self.i - 1][self.j - 2] = True
+                if self.i + 1 <= 7 and self.j - 2 >= 0:
+                    if board[self.i + 1][self.j - 2].type == 'empty':
+                        circle.draw(self.color, self.i + 1, self.j - 2)
+                        posible_movements[self.i + 1][self.j - 2] = True
+                    elif board[self.i + 1][self.j - 2].color != self.color:
+                        circle.draw('red', self.i + 1, self.j - 2)
+                        posible_movements[self.i + 1][self.j - 2] = True
 #            ==========
 #               Movimientos de la Torre
 #            ==========
