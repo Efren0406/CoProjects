@@ -3,21 +3,31 @@ from circles import *
 
 class Piece:
     def __init__(self, screen, width, height, margin, i, j):
+#        Alto y ancho de las casillas
         self.width = width
         self.height = height
+#        Propiedades de la pieza
         self.color = None
         self.type = 'empty'
+#        Posicion en la ventana
         self.x = 0
         self.y = 0
+#        Posicion en el tablero
         self.i = i
         self.j = j
+#        Ajustes de la imagen de la pieza
         self.image = None
         self.image_margin = None
         self.screen = screen
         self.margin = margin
+#        Indica si la pieza ha sido seleccionada
         self.selected = False
+#        Variable para el peon pasado
         self.en_passand = False
     
+#    <<<<<<<<<< 
+#        Metodo que establece el tipo de pieza que sera y sus propiedades 
+#    >>>>>>>>>>
     def set_type(self, color, type):
         if type != 'empty':
             self.color = color
@@ -26,21 +36,34 @@ class Piece:
         elif type == 'empty':
             self.type = type
     
+#    <<<<<<<<<< 
+#        Metodo para establecer si la pieza ha diso seleccionada
+#    >>>>>>>>>>
     def select(self):
         self.selected = not self.selected
         return self.selected
 
+#    <<<<<<<<<< 
+#        Metodo para mostrar la pieza en el tablero
+#    >>>>>>>>>>
     def draw(self):
         if self.type != 'empty':
             self.x = self.i * self.width + self.margin
             self.y = self.j * self.height + self.margin
             self.screen.blit(self.image, (self.x + self.image_margin, self.y + self.image_margin))
 
+#    <<<<<<<<<< 
+#        Meotodo para mostrar los posibles movimientos de la pieza en el tablero
+#    >>>>>>>>>>
     def draw_movements(self, turns, board, posible_movements):
+#        Invoca la clase para mostrar los circulos de los posibles movimientso
         circle = Circle(self.screen, self.width, self.height, self.margin)
 
+#        Solo muestra los movimientos si el tipo de pieza ha sido señalado
         if self.type != 'empty':
-            # Movimientos del Peon
+#            ==========
+#               Movimientos del Peon
+#            ==========
             if self.type == 'p' or self.type == 'pawn':
                 # Elige las coordenadas de los movimientos segun el color 
                 coordenate = self.j - 1 if self.color == 'white' else self.j + 1
@@ -78,6 +101,9 @@ class Piece:
                     if board[self.i + 1][self.j].color != self.color and board[self.i + 1][self.j].en_passand and turns['previous move'] == (self.i + 1, self.j):
                         circle.draw('red', self.i + 1, coordenate)
                         posible_movements[self.i + 1][coordenate] = True
+#            ==========
+#               Movimientos del Alfil
+#            ==========
             elif self.type == 'B' or self.type == 'bishop':
                 d1, d2, d3, d4 = True, True, True, True
                 for i in range(1, 8):
@@ -96,6 +122,8 @@ class Piece:
                             posible_movements[self.i + i][self.j + i * -1] = True
                         elif d2:
                             if board[self.i + i][self.j + i * -1].color != board[self.i][self.j].color and board[self.i + i][self.j + i * -1].type != 'empty':
+                            :q
+                            cls
                                 circle.draw('red', self.i + i, self.j + i * -1)
                                 posible_movements[self.i + i][self.j + i * -1] = True
                             d2 = False
@@ -117,6 +145,9 @@ class Piece:
                                 circle.draw('red', self.i + i, self.j + i)
                                 posible_movements[self.i + i][self.j + i] = True
                             d4 = False
+#            ==========
+#               Movimientos del Caballo
+#            ==========
             elif self.type == 'H' or self.type == 'horse':
                 if self.i - 2 >= 0 and self.j + 1 <= 7:
                     circle.draw(self.color if board[self.i - 2][self.j + 1].type == 'empty' else 'red', self.i - 2, self.j + 1)
@@ -142,6 +173,9 @@ class Piece:
                 if self.i - 2 >= 0 and self.j + 1 <= 7:
                     circle.draw(self.color if board[self.i - 2][self.j + 1].type == 'empty' else 'red', self.i - 2, self.j + 1)
                     posible_movements[self.i - 2][self.j + 1] = True
+#            ==========
+#               Movimientos de la Torre
+#            ==========
             elif self.type == 'T' or self.type == 'tower':
                 l1, l2, l3, l4 = True, True, True, True
                 for i in range(1, 8):
@@ -181,10 +215,19 @@ class Piece:
                                 circle.draw('red', self.i, self.j + i)
                                 posible_movements[self.i][self.j + i] = True
                             l4 = False
+#            ==========
+#               Movimientos de la Reina
+#            ==========
             # elif self.type == 'Q' or self.type == 'queen':
+#            ==========
+#               Movimientos del Rey
+#            ==========
             # elif self.type == 'K' or self.type == 'king':
 
             return posible_movements
         
+#    <<<<<<<<<< 
+#        Metodo que realiza el movimiento de la pieza
+#    >>>>>>>>>>
     def move(self, board, i, j):
         board[i][j].set_type(self.color, self.type)
