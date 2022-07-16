@@ -1,139 +1,174 @@
-# Librerias
+# <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+#               Libraries
+# <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 import pygame
 import sys
 
-# Archivos locales
+# <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+#               Local Modules
+# <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 import pieces
 import display_pieces
 
-# Inicializa la ventana
+# <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+#           Initiate Pygame and window
+# <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 pygame.init()
+
+# Set window name
 pygame.display.set_caption('Chess')
-screen_info = pygame.display.Info()
-size = width, height = screen_info.current_h - screen_info.current_h * .10, screen_info.current_h - screen_info.current_h * .10
-screen = pygame.display.set_mode(size)
 
-margin = height * .075
+SCREEN_INFO = pygame.display.Info()
+SIZE = SCREEN_INFO.current_h - SCREEN_INFO.current_h * .10
+SCREEN = pygame.display.set_mode((SIZE, SIZE))
 
-# Turnos
-turns = {'color': 'white', 'number': 0, 'previous move': (-1, -1)}
+# <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+#               Constants
+# <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+# Board border size
+MARGIN = SIZE * .075
 
-# Posibles Movimientos de la pieza seleccionada
-posible_movements = [[False for i in range(8)] for j in range(8)]
-selected_piece = [False, 0, 0]
+# Colors
+BROWN_BORDER = pygame.Color(51, 25, 0)
+BROWN_BOLD = pygame.Color(102, 51, 0)
+BROWN_LIGHT = pygame.Color(153, 76, 0)
+WHITE_LIGHT = pygame.Color(255, 255, 255)
 
-# Colores
-brown_border = pygame.Color(51, 25, 0)
-brown_bold = pygame.Color(102, 51, 0)
-brown_light = pygame.Color(153, 76, 0)
-white_light = pygame.Color(255, 255, 255)
+# Adjust for board coordenates
+LETTER_SPACE = SIZE * .107142857143
 
-# Fuente para las letras
-font = pygame.font.SysFont(None, int(margin/2))
-letter_space = height * .107142857143
+# Text font
+FONT = pygame.font.SysFont(None, int(MARGIN/2))
 
 # Tamaño de las casillas del tablero
-box_width = (width - 2*margin)/8
-box_height = (height - 2*margin)/8
+BOX_WIDTH = (SIZE - 2*MARGIN)/8
+BOX_HEIGHT = (SIZE - 2*MARGIN)/8
+
+# <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+#               Variables
+# <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+# Turn Register
+turns = {'color': 'white', 'number': 0, 'previous move': (-1, -1)}
+
+# Allowed movements and selected piece coordenates
+posible_movements = [[False for i in range(8)] for j in range(8)]
+se_piece = [False, 0, 0]
+
+# Previous piece coordenates
+pr_piece = -1, -1
+
+# Generates an empty piece in every
+board = [
+            [pieces.Piece(SCREEN, BOX_WIDTH,
+                          BOX_HEIGHT, MARGIN,
+                          i, j) for j in range(8)] for i in range(8)
+        ]
+
+# <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+#               Functions
+# <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 
-# Dibujar Tablero
 def draw_board():
-    for i in range(8):
-        for j in range(8):
-            color = [brown_bold, brown_light]
-            # Dibuja los rectangulos del tablero
-            pygame.draw.rect(screen, color[i % 2 + j % 2 - 1], pygame.Rect(i * box_width + margin, j * box_height + margin, box_width, box_height))
-
-    # Texto para mostrar el de quien es turno
+    """
+    This Function draws the board squares,
+    the letter coordenates and the number coordenates
+    """
+    # Shows the player turn
     color_turn_text = 'blancas' if turns['color'] == 'white' else 'negras'
+    text = FONT.render('turno de las: ' + color_turn_text, True, WHITE_LIGHT)
+    SCREEN.blit(text, (SIZE/2, MARGIN/3))
 
-    text = font.render('turno de las: ' + color_turn_text, True, white_light)
-    screen.blit(text, (width/2, margin/3))
+    # Draw the board squares
+    for a in range(8):
+        for b in range(8):
+            color = [BROWN_BOLD, BROWN_LIGHT]
+            pygame.draw.rect(SCREEN, color[a % 2 + b % 2 - 1],
+                             pygame.Rect(a * BOX_WIDTH + MARGIN,
+                             b * BOX_HEIGHT + MARGIN, BOX_WIDTH, BOX_HEIGHT))
 
-    # Dibuja las coordenadas en el tablero
+    # Draw the board coordenates
     for i in range(8):
-        text = font.render(chr(65 + i), True, white_light)
-        num = font.render(str(i + 1), True, white_light)
-        screen.blit(text, (margin/2, i * letter_space + (3 * margin/2)))
-        screen.blit(num, (i * letter_space + (3 * margin/2), width - (2 * margin/3)))
+        text = FONT.render(chr(65 + i), True, WHITE_LIGHT)
+        num = FONT.render(str(i + 1), True, WHITE_LIGHT)
+        SCREEN.blit(text, (MARGIN/2, i * LETTER_SPACE + (3 * MARGIN/2)))
+        SCREEN.blit(num, (i * LETTER_SPACE + (3 * MARGIN/2),
+                          SIZE - (2 * MARGIN/3)))
 
 
-# Dibujar Posicion Inicial de las Piezas
-board = [[pieces.Piece(screen, box_width, box_height, margin, i, j) for j in range(8)] for i in range(8)]
+# Set the initial board position
 display_pieces.initial_position(board)
 
-# Coordenadas pieza seleccionada
-previous_piece = -1, -1
-
 # >>>>>>>
-#Seccion para pruebas
+# Seccion para pruebas
 # <<<<<<<
 board[3][3].set_type('white', 'Q')
 board[4][4].set_type('black', 'K')
 # <<<<<<<
 
+# <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+#               Main loop
+# <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 while True:
-    # Borra la pantalla
-    screen.fill((0, 0, 0))
+    # Clears the window
+    SCREEN.fill((0, 0, 0))
 
     for event in pygame.event.get():
-        # Obtiene la posicion del mouse en la ventana
         mouse_position = pygame.mouse.get_pos()
-        # Evento de cerrar la ventana
+        # Closes the window
         if event.type == pygame.QUIT:
             sys.exit()
-        # <<<<<<<<<<
-        #   Evento de click en la pantalla
-        # <<<<<<<<<<
+        # When a click is detected
         if event.type == pygame.MOUSEBUTTONUP:
-            # Coordenadas de la casilla donde se esta haciendo click
-            i = int((mouse_position[0] - margin)//box_width)
-            j = int((mouse_position[1] - margin)//box_height)
-            # <<<<<<<<<<
-            #   Se ejecuta si la se hay una pieza seleccionada y se clica un movimiento permitido para esa pieza
-            # <<<<<<<<<<
-            if posible_movements[i][j] and selected_piece[0]:
-                # Realiza el movimiento de la pieza seleccionada
-                board[selected_piece[1]][selected_piece[2]].move(board, i, j)
-                # Realiza la captura al paso si la pieza es un peon y las condiciones se cumplen
-                if board[selected_piece[1]][selected_piece[2]].type in ('p', 'pawn'):
-                    if abs(selected_piece[2] - j) == 2:
+            # Get the mouse coordenates on the board
+            i = int((mouse_position[0] - MARGIN)//BOX_WIDTH)
+            j = int((mouse_position[1] - MARGIN)//BOX_HEIGHT)
+            # When a permitted movement is clicked
+            if posible_movements[i][j] and se_piece[0]:
+                # Makes the piece movement
+                board[se_piece[1]][se_piece[2]].move(board, i, j)
+                # Makes the en-passand capture if permitted
+                if board[se_piece[1]][se_piece[2]].type in ('p', 'pawn'):
+                    if abs(se_piece[2] - j) == 2:
                         board[i][j].en_passand = True
-                    if board[i][j + (1 if board[selected_piece[1]][selected_piece[2]].color == 'white' else -1)].en_passand and board[i][j + (1 if board[selected_piece[1]][selected_piece[2]].color == 'white' else -1)].color != board[selected_piece[1]][selected_piece[2]].color:
-                        board[i][j + (1 if board[selected_piece[1]][selected_piece[2]].color == 'white' else -1)].set_type('white', 'empty')
-                # Al mover la pieza vacia la casilla de donde proviene
-                board[selected_piece[1]][selected_piece[2]].set_type('white', 'empty')
-                board[previous_piece[0]][previous_piece[1]].select()
-                # Pasa al siguiente turno
+                    if (board[i][j + (1 if board[se_piece[1]][se_piece[2]].color == 'white' else -1)].en_passand
+                       and board[i][j + (1 if board[se_piece[1]][se_piece[2]].color == 'white' else -1)].color != board[se_piece[1]][se_piece[2]].color):
+                        board[i][j + (1 if board[se_piece[1]][se_piece[2]].color == 'white' else -1)].set_type('white', 'empty')
+                board[se_piece[1]][se_piece[2]].set_type('white', 'empty')
+                board[pr_piece[0]][pr_piece[1]].select()
+                # Change the player turn
                 if turns['color'] == 'white':
                     turns['color'] = 'black'
                 else:
                     turns['color'] = 'white'
                 turns['number'] += 1
                 turns['previous move'] = i, j
-                # Vacia los movimientos posibles de la pieza seleccionada
-                posible_movements = [[False for x in range(8)] for y in range(8)]
-            # SOlo se podra seleccionar la pieza si es el turno de su color
+                # Restore the allowed movements
+                posible_movements = [
+                                        [False for x in range(8)]
+                                        for y in range(8)
+                                    ]
+            # Just cange select a piece if it's its color turn
             if turns['color'] == board[i][j].color:
-                # Selecciona o deselecciona la pieza al dar click en ella
-                if previous_piece == (-1, -1) or previous_piece == (i, j) or not board[previous_piece[0]][previous_piece[1]].selected:
-                    previous_piece = i, j
-                    selected_piece[0] = board[i][j].select()
-                    selected_piece[1] = i
-                    selected_piece[2] = j
-                # Deselecciona la pieza si se selecciona otra diferente
-                elif previous_piece != (i, j):
-                    board[previous_piece[0]][previous_piece[1]].select()
+                # Select or deselect the clicked piece
+                if (pr_piece in ((-1, -1), (i, j))
+                   or not board[pr_piece[0]][pr_piece[1]].selected):
+                    pr_piece = i, j
+                    se_piece[0] = board[i][j].select()
+                    se_piece[1] = i
+                    se_piece[2] = j
+                # Deselect the piece if other's clicked
+                elif pr_piece != (i, j):
+                    board[pr_piece[0]][pr_piece[1]].select()
                     board[i][j].select()
-                    selected_piece[0] = board[i][j].select()
-                    selected_piece[1] = i
-                    selected_piece[2] = j
+                    se_piece[0] = board[i][j].select()
+                    se_piece[1] = i
+                    se_piece[2] = j
                     previous_piece = i, j
 
-    # Muestra en pantalla las piezas y los posibles movimientos
-    display_pieces.draw_board()
-    posible_movements = display_pieces.display_pieces(board, turns, posible_movements)
+    # Upgrades the board and show the allow movements
+    draw_board()
+    posible_movements = display_pieces.display(board, turns, posible_movements)
 
     pygame.display.flip()
 

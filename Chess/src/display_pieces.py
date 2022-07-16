@@ -1,4 +1,4 @@
-def display_pieces(board, turn, posible_movements):
+def display(board, turn, posible_movements):
     for i in range(8):
         for j in range(8):
             board[i][j].draw()

@@ -29,13 +29,13 @@ class Piece:
     # <<<<<<<<<<
     #   Metodo que establece el tipo de pieza que sera y sus propiedades
     # >>>>>>>>>>
-    def set_type(self, color, type):
-        if type != 'empty':
+    def set_type(self, color, new_type):
+        if new_type != 'empty':
             self.color = color
-            self.type = type
-            self.image, self.image_margin = load_images.select(self.color, type, self.width, self.height)
-        elif type == 'empty':
-            self.type = type
+            self.type = new_type
+            self.image, self.image_margin = load_images.select(self.color, new_type, self.width, self.height)
+        elif new_type == 'empty':
+            self.type = new_type
 
     # <<<<<<<<<<
     #   Metodo para establecer si la pieza ha diso seleccionada
@@ -69,7 +69,7 @@ class Piece:
                 # Elige las coordenadas de los movimientos segun el color
                 coordenate = self.j - 1 if self.color == 'white' else self.j + 1
                 if board[self.i][coordenate].type == 'empty':
-                    circle.draw('green' if (coordenate == 7 or coordenate == 0) else self.color, self.i, coordenate)
+                    circle.draw('green' if coordenate in (7, 0) else self.color, self.i, coordenate)
                     posible_movements[self.i][coordenate] = True
                 # Dibuja un segundo posible movimiento en caso de estar en la posicion inicial
                 if (self.j == 1 and self.color == 'black') or (self.j == 6 and self.color == 'white') and board[self.i][coordenate].type == 'empty' and board[self.i][coordenate - 1 if self.color == 'white' else coordenate + 1].type == 'empty':
@@ -450,8 +450,10 @@ class Piece:
                         posible_movements[self.i + 1][self.j] = True
 
             return posible_movements
-        
-    # <<<<<<<<<< 
+        else:
+            return None
+
+    # <<<<<<<<<<
         # Metodo que realiza el movimiento de la pieza
     # >>>>>>>>>>
     def move(self, board, i, j):
