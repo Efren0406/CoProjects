@@ -96,7 +96,7 @@ while True:
                 # Realiza el movimiento de la pieza seleccionada
                 board[selected_piece[1]][selected_piece[2]].move(board, i, j)
                 # Realiza la captura al paso si la pieza es un peon y las condiciones se cumplen
-                if board[selected_piece[1]][selected_piece[2]].type == 'p' or board[selected_piece[1]][selected_piece[2]].type == 'pawn':
+                if board[selected_piece[1]][selected_piece[2]].type in ('p', 'pawn'):
                     if abs(selected_piece[2] - j) == 2:
                         board[i][j].en_passand = True
                     if board[i][j + (1 if board[selected_piece[1]][selected_piece[2]].color == 'white' else -1)].en_passand and board[i][j + (1 if board[selected_piece[1]][selected_piece[2]].color == 'white' else -1)].color != board[selected_piece[1]][selected_piece[2]].color:

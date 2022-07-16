@@ -64,7 +64,7 @@ class Piece:
             # ==========
             #   Movimientos del Peon
             # ==========
-            if self.type == 'p' or self.type == 'pawn':
+            if self.type in ('p', 'pawn'):
                 # Elige las coordenadas de los movimientos segun el color
                 coordenate = self.j - 1 if self.color == 'white' else self.j + 1
                 if board[self.i][coordenate].type == 'empty':
@@ -104,7 +104,7 @@ class Piece:
             # ==========
             #   Movimientos del Alfil
             # ==========
-            elif self.type == 'B' or self.type == 'bishop':
+            elif self.type in ('B', 'bishop'):
                 # Banderas para detectar cuando una pieza se interpone en el camino del alfil
                 d1, d2, d3, d4 = True, True, True, True
                 # Recorre las 4 diagonales
@@ -156,7 +156,7 @@ class Piece:
             # ==========
             #   Movimientos del Caballo
             # ==========
-            elif self.type == 'H' or self.type == 'horse':
+            elif self.type in ('H', 'horse'):
                 # Izquierda
                 if self.i - 2 >= 0 and self.j + 1 <= 7:
                     if board[self.i - 2][self.j + 1].type == 'empty':
@@ -220,7 +220,7 @@ class Piece:
             # ==========
             #   Movimientos de la Torre
             # ==========
-            elif self.type == 'T' or self.type == 'tower':
+            elif self.type in ('T', 'tower'):
                 # Banderas para detectar si existe una pieza en el camino de la torre
                 l1, l2, l3, l4 = True, True, True, True
                 # Recorre las lineas verticales y horizontales
@@ -272,7 +272,7 @@ class Piece:
             # ==========
             #   Movimientos de la Reina
             # ==========
-            elif self.type == 'Q' or self.type == 'queen':
+            elif self.type in ('Q', 'queen'):
                 # Banderas para detectar cuando una pieza se interpone en el camino de la reina
                 d1, d2, d3, d4 = True, True, True, True
                 l1, l2, l3, l4 = True, True, True, True
@@ -375,7 +375,7 @@ class Piece:
             # ==========
                # Movimientos del Rey
             # ==========
-            elif self.type == 'K' or self.type == 'king':
+            elif self.type in ('k', 'king'):
                 # Casilla superior izquierda
                 if self.i - 1 >= 0 and self.j - 1 >= 0:
                     if board[self.i - 1][self.j - 1].type == 'empty':
