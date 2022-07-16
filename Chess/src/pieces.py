@@ -79,10 +79,10 @@ class Piece:
                 if self.i - 1 >= 0:
                     # Diagonales
                     if board[self.i - 1][coordenate].color != self.color and board[self.i - 1][coordenate].type != 'empty':
-                        circle.draw('green' if (coordenate == 7 or coordenate == 0) else 'red', self.i - 1, coordenate)
+                        circle.draw('green' if coordenate in (7, 0) else 'red', self.i - 1, coordenate)
                         posible_movements[self.i - 1][coordenate] = True
                     if board[self.i - 1][coordenate].color != self.color and board[self.i - 1][coordenate].type != 'empty':
-                        circle.draw('green' if (coordenate == 7 or coordenate == 0) else 'red', self.i + 1, coordenate)
+                        circle.draw('green' if coordenate in (7, 0) else 'red', self.i + 1, coordenate)
                         posible_movements[self.i + 1][coordenate] = True
                     # Captura al paso
                     if board[self.i - 1][self.j].color != self.color and board[self.i - 1][self.j].en_passand and turns['previous move'] == (self.i - 1, self.j):
@@ -92,10 +92,10 @@ class Piece:
                 if self.i + 1 <= 7:
                     # Diagonales
                     if board[self.i + 1][coordenate].color != self.color and board[self.i + 1][coordenate].type != 'empty':
-                        circle.draw('green' if (coordenate == 7 or coordenate == 0) else 'red', self.i + 1, coordenate)
+                        circle.draw('green' if coordenate in (7, 0) else 'red', self.i + 1, coordenate)
                         posible_movements[self.i + 1][coordenate] = True
                     if board[self.i + 1][coordenate].color != self.color and board[self.i + 1][coordenate].type != 'empty':
-                        circle.draw('green' if (coordenate == 7 or coordenate == 0) else 'red', self.i + 1, coordenate)
+                        circle.draw('green' if coordenate in (7, 0) else 'red', self.i + 1, coordenate)
                         posible_movements[self.i + 1][coordenate] = True
                     # Captura al paso
                     if board[self.i + 1][self.j].color != self.color and board[self.i + 1][self.j].en_passand and turns['previous move'] == (self.i + 1, self.j):
