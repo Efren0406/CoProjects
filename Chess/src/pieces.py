@@ -1,5 +1,6 @@
-from load_images import *
-from circles import *
+import load_images
+import circles
+
 
 class Piece:
     def __init__(self, screen, width, height, margin, i, j):
@@ -32,7 +33,7 @@ class Piece:
         if type != 'empty':
             self.color = color
             self.type = type
-            self.image, self.image_margin = Images().select(self.color, type, self.width, self.height)
+            self.image, self.image_margin = load_images.select(self.color, type, self.width, self.height)
         elif type == 'empty':
             self.type = type
 
@@ -57,7 +58,7 @@ class Piece:
     # >>>>>>>>>>
     def draw_movements(self, turns, board, posible_movements):
         # Invoca la clase para mostrar los circulos de los posibles movimientso
-        circle = Circle(self.screen, self.width, self.height, self.margin)
+        circle = circles.Circle(self.screen, self.width, self.height, self.margin)
 
         # Solo muestra los movimientos si el tipo de pieza ha sido señalado
         if self.type != 'empty':
@@ -71,8 +72,7 @@ class Piece:
                     circle.draw('green' if (coordenate == 7 or coordenate == 0) else self.color, self.i, coordenate)
                     posible_movements[self.i][coordenate] = True
                 # Dibuja un segundo posible movimiento en caso de estar en la posicion inicial
-                if (self.j == 1 and self.color == 'black') or (self.j == 6 and self.color == 'white'):
-                    if board[self.i][coordenate].type == 'empty' and board[self.i][coordenate - 1 if self.color == 'white' else coordenate + 1].type == 'empty':
+                if (self.j == 1 and self.color == 'black') or (self.j == 6 and self.color == 'white') and board[self.i][coordenate].type == 'empty' and board[self.i][coordenate - 1 if self.color == 'white' else coordenate + 1].type == 'empty':
                         circle.draw(self.color, self.i, coordenate - 1 if self.color == 'white' else coordenate + 1)
                         posible_movements[self.i][coordenate - 1 if self.color == 'white' else coordenate + 1] = True
                 # Movimientos de Captura lado izquierdo
@@ -373,7 +373,7 @@ class Piece:
                                 posible_movements[self.i + i][self.j] = True
                             l3 = False
             # ==========
-               # Movimientos del Rey
+            #   Movimientos del Rey
             # ==========
             elif self.type in ('k', 'king'):
                 # Casilla superior izquierda
@@ -456,3 +456,4 @@ class Piece:
     # >>>>>>>>>>
     def move(self, board, i, j):
         board[i][j].set_type(self.color, self.type)
+

@@ -3,9 +3,8 @@ import pygame
 import sys
 
 # Archivos locales
-from pieces import *
-from display_pieces import *
-from circles import *
+import pieces
+import display_pieces
 
 # Inicializa la ventana
 pygame.init()
@@ -37,13 +36,14 @@ letter_space = height * .107142857143
 box_width = (width - 2*margin)/8
 box_height = (height - 2*margin)/8
 
+
 # Dibujar Tablero
 def draw_board():
     for i in range(8):
         for j in range(8):
             color = [brown_bold, brown_light]
             # Dibuja los rectangulos del tablero
-            pygame.draw.rect(screen, color[i%2 + j%2 - 1], pygame.Rect(i * box_width + margin, j * box_height + margin, box_width, box_height))
+            pygame.draw.rect(screen, color[i % 2 + j % 2 - 1], pygame.Rect(i * box_width + margin, j * box_height + margin, box_width, box_height))
 
     # Texto para mostrar el de quien es turno
     color_turn_text = 'blancas' if turns['color'] == 'white' else 'negras'
@@ -58,9 +58,10 @@ def draw_board():
         screen.blit(text, (margin/2, i * letter_space + (3 * margin/2)))
         screen.blit(num, (i * letter_space + (3 * margin/2), width - (2 * margin/3)))
 
+
 # Dibujar Posicion Inicial de las Piezas
-board = [[Piece(screen, box_width, box_height, margin, i, j) for j in range(8)] for i in range(8)]
-initial_position(board)
+board = [[pieces.Piece(screen, box_width, box_height, margin, i, j) for j in range(8)] for i in range(8)]
+display_pieces.initial_position(board)
 
 # Coordenadas pieza seleccionada
 previous_piece = -1, -1
@@ -131,7 +132,8 @@ while True:
                     previous_piece = i, j
 
     # Muestra en pantalla las piezas y los posibles movimientos
-    draw_board()
-    posible_movements = display_pieces(board, turns, posible_movements)
+    display_pieces.draw_board()
+    posible_movements = display_pieces.display_pieces(board, turns, posible_movements)
 
     pygame.display.flip()
+

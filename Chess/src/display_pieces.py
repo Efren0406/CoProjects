@@ -4,8 +4,10 @@ def display_pieces(board, turn, posible_movements):
             board[i][j].draw()
     for i in range(8):
         for j in range(8):
-            if board[i][j].selected: posible_movements = board[i][j].draw_movements(turn, board, posible_movements)
+            if board[i][j].selected:
+                posible_movements = board[i][j].draw_movements(turn, board, posible_movements)
     return posible_movements
+
 
 def initial_position(board):
     for i in range(8):
@@ -27,3 +29,4 @@ def initial_position(board):
         board[2 + 3 * i][7].set_type('white', 'B')
         board[3][7].set_type('white', 'Q')
         board[4][7].set_type('white', 'K')
+

@@ -1,5 +1,6 @@
 import pygame
 
+
 class Circle:
     def __init__(self, screen, width, height, margin):
         self.width = width
@@ -10,7 +11,7 @@ class Circle:
         self.y = 0
         self.screen = screen
         self.margin = margin
-    
+
     def draw(self, color, i, j):
         self.x = i * self.width + self.margin
         self.y = j * self.height + self.margin
@@ -24,4 +25,5 @@ class Circle:
         elif color == 'green':
             self.color = pygame.Color(0, 255, 0)
 
-        pygame.draw.circle(self.screen, self.color, (self.x + self.width/2 , self.y + self.height/2), self.radius)
+        pygame.draw.circle(self.screen, self.color, (self.x + self.width/2, self.y + self.height/2), self.radius)
+
