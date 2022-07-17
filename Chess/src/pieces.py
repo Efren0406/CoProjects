@@ -148,7 +148,7 @@ class Piece:
                             circle.draw(self.color, self.i + i, self.j + i)
                             posible_movements[self.i + i][self.j + i] = True
                         # Posible captura
-                        elif d4: 
+                        elif d4:
                             if board[self.i + i][self.j + i].color != board[self.i][self.j].color and board[self.i + i][self.j + i].type != 'empty':
                                 circle.draw('red', self.i + i, self.j + i)
                                 posible_movements[self.i + i][self.j + i] = True
@@ -320,7 +320,7 @@ class Piece:
                             circle.draw(self.color, self.i + i, self.j + i)
                             posible_movements[self.i + i][self.j + i] = True
                         # Posible captura diagonal
-                        elif d4: 
+                        elif d4:
                             if board[self.i + i][self.j + i].color != board[self.i][self.j].color and board[self.i + i][self.j + i].type != 'empty':
                                 circle.draw('red', self.i + i, self.j + i)
                                 posible_movements[self.i + i][self.j + i] = True
@@ -436,7 +436,7 @@ class Piece:
                         circle.draw(self.color, self.i + 1, self.j + 1)
                         posible_movements[self.i + 1][self.j + 1] = True
                     # Posible captura diagonal
-                    elif board[self.i + 1][self.j + 1].color != self.color: 
+                    elif board[self.i + 1][self.j + 1].color != self.color:
                         circle.draw('red', self.i + 1, self.j + 1)
                         posible_movements[self.i + 1][self.j + 1] = True
                 # Casilla derecha
