@@ -378,80 +378,166 @@ class Piece:
             elif self.type in ('K', 'king'):
                 # Upper left box
                 if self.i - 1 >= 0 and self.j - 1 >= 0:
-                    if board[self.i - 1][self.j - 1].type == 'empty':
-                        circle.draw(self.color, self.i - 1, self.j - 1)
-                        posible_movements[self.i - 1][self.j - 1] = True
-                    # Posible capture
-                    elif board[self.i - 1][self.j - 1].color != self.color:
-                        circle.draw('red', self.i - 1, self.j - 1)
-                        posible_movements[self.i - 1][self.j - 1] = True
+                    if self.king_movement_allowed(board, self.i - 1, self.j - 1):
+                        if board[self.i - 1][self.j - 1].type == 'empty':
+                            circle.draw(self.color, self.i - 1, self.j - 1)
+                            posible_movements[self.i - 1][self.j - 1] = True
+                        # Posible capture
+                        elif board[self.i - 1][self.j - 1].color != self.color:
+                            circle.draw('red', self.i - 1, self.j - 1)
+                            posible_movements[self.i - 1][self.j - 1] = True
                 # Left box
                 if self.i - 1 >= 0:
-                    if board[self.i - 1][self.j].type == 'empty':
-                        circle.draw(self.color, self.i - 1, self.j)
-                        posible_movements[self.i - 1][self.j] = True
-                    # Posible capture
-                    elif board[self.i - 1][self.j].color != self.color:
-                        circle.draw('red', self.i - 1, self.j)
-                        posible_movements[self.i - 1][self.j] = True
+                    if self.king_movement_allowed(board, self.i - 1, self.j):
+                        if board[self.i - 1][self.j].type == 'empty':
+                            circle.draw(self.color, self.i - 1, self.j)
+                            posible_movements[self.i - 1][self.j] = True
+                        # Posible capture
+                        elif board[self.i - 1][self.j].color != self.color:
+                            circle.draw('red', self.i - 1, self.j)
+                            posible_movements[self.i - 1][self.j] = True
                 # Upper right box
                 if self.i + 1 <= 7 and self.j - 1 >= 0:
-                    if board[self.i + 1][self.j - 1].type == 'empty':
-                        circle.draw(self.color, self.i + 1, self.j - 1)
-                        posible_movements[self.i + 1][self.j - 1] = True
-                    # Posible capture
-                    elif board[self.i + 1][self.j - 1].color != self.color:
-                        circle.draw('red', self.i + 1, self.j - 1)
-                        posible_movements[self.i + 1][self.j - 1] = True
+                    if self.king_movement_allowed(board, self.i + 1, self.j - 1):
+                        if board[self.i + 1][self.j - 1].type == 'empty':
+                            circle.draw(self.color, self.i + 1, self.j - 1)
+                            posible_movements[self.i + 1][self.j - 1] = True
+                        # Posible capture
+                        elif board[self.i + 1][self.j - 1].color != self.color:
+                            circle.draw('red', self.i + 1, self.j - 1)
+                            posible_movements[self.i + 1][self.j - 1] = True
                 # Lower box
                 if self.j - 1 >= 0:
-                    if board[self.i][self.j - 1].type == 'empty':
-                        circle.draw(self.color, self.i, self.j - 1)
-                        posible_movements[self.i][self.j - 1] = True
-                    # Possible capture
-                    elif board[self.i][self.j - 1].color != self.color:
-                        circle.draw('red', self.i, self.j - 1)
-                        posible_movements[self.i][self.j - 1] = True
+                    if self.king_movement_allowed(board, self.i, self.j - 1):
+                        if board[self.i][self.j - 1].type == 'empty':
+                            circle.draw(self.color, self.i, self.j - 1)
+                            posible_movements[self.i][self.j - 1] = True
+                        # Possible capture
+                        elif board[self.i][self.j - 1].color != self.color:
+                            circle.draw('red', self.i, self.j - 1)
+                            posible_movements[self.i][self.j - 1] = True
                 # Lower left box
                 if self.i - 1 >= 0 and self.j + 1 <= 7:
-                    if board[self.i - 1][self.j + 1].type == 'empty':
-                        circle.draw(self.color, self.i - 1, self.j + 1)
-                        posible_movements[self.i - 1][self.j + 1] = True
-                    # Possible capture
-                    elif board[self.i - 1][self.j + 1].color != self.color:
-                        circle.draw('red', self.i - 1, self.j + 1)
-                        posible_movements[self.i - 1][self.j + 1] = True
+                    if self.king_movement_allowed(board, self.i - 1, self.j + 1):
+                        if board[self.i - 1][self.j + 1].type == 'empty':
+                            circle.draw(self.color, self.i - 1, self.j + 1)
+                            posible_movements[self.i - 1][self.j + 1] = True
+                        # Possible capture
+                        elif board[self.i - 1][self.j + 1].color != self.color:
+                            circle.draw('red', self.i - 1, self.j + 1)
+                            posible_movements[self.i - 1][self.j + 1] = True
                 # Lower box
                 if self.j + 1 <= 7:
-                    if board[self.i][self.j + 1].type == 'empty':
-                        circle.draw(self.color, self.i, self.j + 1)
-                        posible_movements[self.i][self.j + 1] = True
-                    # Possible capture
-                    elif board[self.i][self.j + 1].color != self.color:
-                        circle.draw('red', self.i, self.j + 1)
-                        posible_movements[self.i][self.j + 1] = True
+                    if self.king_movement_allowed(board, self.i, self.j + 1):
+                        if board[self.i][self.j + 1].type == 'empty':
+                            circle.draw(self.color, self.i, self.j + 1)
+                            posible_movements[self.i][self.j + 1] = True
+                        # Possible capture
+                        elif board[self.i][self.j + 1].color != self.color:
+                            circle.draw('red', self.i, self.j + 1)
+                            posible_movements[self.i][self.j + 1] = True
                 # Bottom right box
                 if self.i + 1 <= 7 and self.j + 1 <= 7:
-                    if board[self.i + 1][self.j + 1].type == 'empty':
-                        circle.draw(self.color, self.i + 1, self.j + 1)
-                        posible_movements[self.i + 1][self.j + 1] = True
-                    # Possible capture
-                    elif board[self.i + 1][self.j + 1].color != self.color:
-                        circle.draw('red', self.i + 1, self.j + 1)
-                        posible_movements[self.i + 1][self.j + 1] = True
-                # Right boc
+                    if self.king_movement_allowed(board, self.i + 1, self.j + 1):
+                        if board[self.i + 1][self.j + 1].type == 'empty':
+                            circle.draw(self.color, self.i + 1, self.j + 1)
+                            posible_movements[self.i + 1][self.j + 1] = True
+                        # Possible capture
+                        elif board[self.i + 1][self.j + 1].color != self.color:
+                            circle.draw('red', self.i + 1, self.j + 1)
+                            posible_movements[self.i + 1][self.j + 1] = True
+                # Right box
                 if self.i + 1 <= 7:
-                    if board[self.i + 1][self.j].type == 'empty':
-                        circle.draw(self.color, self.i + 1, self.j)
-                        posible_movements[self.i + 1][self.j] = True
-                    # Possible capture
-                    elif board[self.i + 1][self.j].color != self.color:
-                        circle.draw('red', self.i + 1, self.j)
-                        posible_movements[self.i + 1][self.j] = True
+                    if self.king_movement_allowed(board, self.i + 1, self.j):
+                        if board[self.i + 1][self.j].type == 'empty':
+                            circle.draw(self.color, self.i + 1, self.j)
+                            posible_movements[self.i + 1][self.j] = True
+                        # Possible capture
+                        elif board[self.i + 1][self.j].color != self.color:
+                            circle.draw('red', self.i + 1, self.j)
+                            posible_movements[self.i + 1][self.j] = True
 
             return posible_movements
 
         return None
+
+    # <<<<<<<<<<
+        # Metodo que realiza el movimiento de la pieza
+    # >>>>>>>>>>
+    def king_movement_allowed(self, board, i, j):
+        for x in range(1, 8):
+            # Flags
+            d1, d2, d3, d4 = True, True, True, True
+            L1, L2, L3, L4 = True, True, True, True
+            # Diagonals
+            if (i + x * - 1 >= 0 and j + x * - 1 >= 0
+               and board[i + x * - 1][j + x * - 1].color != self.color):
+                if board[i + x * - 1][j + x * - 1].type in ('Q', 'B', 'K', 'king', 'queen', 'bishop'):
+                    return False
+                elif board[i + x * - 1][j + x * - 1].type in ('p', 'pawn') and x == 1:
+                    return False
+            if (i + x <= 7 and j + x * - 1 >= 0
+               and board[i + x][j + x * - 1].color != self.color):
+                if board[i + x][j + x * - 1].type in ('Q', 'B', 'K', 'king', 'queen', 'bishop'):
+                    return False
+                elif board[i + x][j + x * - 1].type in ('p', 'pawn') and board[i][j].color != self.color and x == 1:
+                    return False
+            if (i + x * - 1 >= 0 and j + x <= 7
+               and board[i + x * - 1][j + x].color != self.color):
+                if board[i + x * - 1][j + x].type in ('Q', 'B', 'K', 'king', 'queen', 'bishop'):
+                    return False
+            if (i + x <= 7 and j + x <= 7
+               and board[i + x][j + x].color != self.color):
+                if board[i + x][j + x].type in ('Q', 'B', 'K', 'king', 'queen', 'bishop'):
+                    return False
+            # Lines
+            if i - x >= 0 and board[i + x][j].color != self.color:
+                if board[i - x][j].type in ('T', 'Q', 'K', 'king', 'tower', 'queen'):
+                    return False
+            if j - x >= 0 and board[i][j - x].color != self.color:
+                if board[i][j - x].type in ('T', 'Q', 'K', 'king', 'tower', 'queen'):
+                    return False
+            if i + x <= 7 and board[i + x][j].color != self.color:
+                if board[i + x][j].type in ('T', 'Q', 'K', 'king', 'tower', 'queen'):
+                    return False
+            if j + x <= 7 and board[i][j + x].color != self.color:
+                if board[i][j + x].type in ('T', 'Q', 'K', 'king', 'tower', 'queen'):
+                    return False
+            # L moves
+            if (i - 2 >= 0 and j - 1 >= 0
+               and board[i - 2][j - 1].color != self.color):
+                if board[i - 2][j - 1].type in ('H', 'horse'):
+                    return False
+            if (i - 2 >= 0 and j + 1 <= 7
+               and board[i - 2][j + 1].color != self.color):
+                if board[i - 2][j + 1].type in ('H', 'horse'):
+                    return False
+            if (i - 1 >= 0 and j - 2 >= 0
+               and board[i - 1][j - 2].color != self.color):
+                if board[i - 1][j - 2].type in ('H', 'horse'):
+                    return False
+            if (i + 1 <= 7 and j - 2 >= 0
+               and board[i + 1][j - 2].color != self.color):
+                if board[i + 1][j - 2].type in ('H', 'horse'):
+                    return False
+            if (i + 2 <= 7 and j - 1 >= 0
+               and board[i + 2][j - 1].color != self.color):
+                if board[i + 2][j - 1].type in ('H', 'horse'):
+                    return False
+            if (i + 2 <= 7 and j + 1 >= 0
+               and board[i + 2][j + 1].color != self.color):
+                if board[i + 2][j + 1].type in ('H', 'horse'):
+                    return False
+            if (i - 1 >= 0 and j + 2 <= 7
+               and board[i - 1][j + 2].color != self.color):
+                if board[i - 1][j + 2].type in ('H', 'horse'):
+                    return False
+            if (i + 1 <= 7 and j + 2 <= 7
+               and board[i + 1][j + 2].color != self.color):
+                if board[i + 1][j + 2].type in ('H', 'horse'):
+                    return False
+
+        return True
 
     # <<<<<<<<<<
         # Metodo que realiza el movimiento de la pieza

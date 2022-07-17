@@ -102,7 +102,7 @@ display_pieces.initial_position(board)
 # >>>>>>>
 # Seccion para pruebas
 # <<<<<<<
-board[3][3].set_type('white', 'Q')
+board[2][3].set_type('white', 'K')
 board[4][4].set_type('black', 'K')
 # <<<<<<<
 
