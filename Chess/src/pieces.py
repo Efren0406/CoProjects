@@ -450,8 +450,8 @@ class Piece:
                         posible_movements[self.i + 1][self.j] = True
 
             return posible_movements
-        else:
-            return None
+
+        return None
 
     # <<<<<<<<<<
         # Metodo que realiza el movimiento de la pieza
