@@ -72,7 +72,7 @@ class Piece:
                     circle.draw('green' if coordenate in (7, 0) else self.color, self.i, coordenate)
                     posible_movements[self.i][coordenate] = True
                 # Dibuja un segundo posible movimiento en caso de estar en la posicion inicial
-                if (self.j == 1 and self.color == 'black') or (self.j == 6 and self.color == 'white') and board[self.i][coordenate].type == 'empty' and board[self.i][coordenate - 1 if self.color == 'white' else coordenate + 1].type == 'empty':
+                if ((self.j == 1 and self.color == 'black') or (self.j == 6 and self.color == 'white')) and board[self.i][coordenate].type == 'empty' and board[self.i][coordenate - 1 if self.color == 'white' else coordenate + 1].type == 'empty':
                         circle.draw(self.color, self.i, coordenate - 1 if self.color == 'white' else coordenate + 1)
                         posible_movements[self.i][coordenate - 1 if self.color == 'white' else coordenate + 1] = True
                 # Movimientos de Captura lado izquierdo
@@ -375,7 +375,7 @@ class Piece:
             # ==========
             #   Movimientos del Rey
             # ==========
-            elif self.type in ('k', 'king'):
+            elif self.type in ('K', 'king'):
                 # Casilla superior izquierda
                 if self.i - 1 >= 0 and self.j - 1 >= 0:
                     if board[self.i - 1][self.j - 1].type == 'empty':
