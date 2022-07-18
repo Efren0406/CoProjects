@@ -545,3 +545,4 @@ class Piece:
     def move(self, board, i, j):
         board[i][j].set_type(self.color, self.type)
 
+# Prueba branch
