@@ -9,6 +9,8 @@ import sys
 # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 import pieces
 import display_pieces
+import debugging
+import move_record
 
 # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 #           Initiate Pygame and window
@@ -40,9 +42,12 @@ LETTER_SPACE = SIZE * .107142857143
 # Text font
 FONT = pygame.font.SysFont(None, int(MARGIN/2))
 
-# Tamaño de las casillas del tablero
+# Box size
 BOX_WIDTH = (SIZE - 2*MARGIN)/8
 BOX_HEIGHT = (SIZE - 2*MARGIN)/8
+
+# Movement record
+record = move_record.Record()
 
 # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 #               Variables
@@ -102,8 +107,6 @@ display_pieces.initial_position(board)
 # >>>>>>>
 # Seccion para pruebas
 # <<<<<<<
-board[2][3].set_type('white', 'K')
-board[4][4].set_type('black', 'K')
 # <<<<<<<
 
 # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -127,6 +130,7 @@ while True:
             if posible_movements[i][j] and se_piece[0]:
                 # Makes the piece movement
                 board[se_piece[1]][se_piece[2]].move(board, i, j)
+                record.add(board[se_piece[1]][se_piece[2]].type, board[se_piece[1]][se_piece[2]].id, i, j)
                 # Makes the en-passand capture if permitted
                 if board[se_piece[1]][se_piece[2]].type in ('p', 'pawn'):
                     if abs(se_piece[2] - j) == 2:
@@ -166,6 +170,8 @@ while True:
                     se_piece[2] = j
                     previous_piece = i, j
 
+    debugging.debug(record.is_in_record(board[se_piece[1]][se_piece[2]].type, board[se_piece[1]][se_piece[2]].id, board[se_piece[1]][se_piece[2]].color))
+    debugging.debug((board[se_piece[1]][se_piece[2]].type, board[se_piece[1]][se_piece[2]].id, board[se_piece[1]][se_piece[2]].color), 10, 10)
     # Upgrades the board and show the allow movements
     draw_board()
     posible_movements = display_pieces.display(board, turns, posible_movements)

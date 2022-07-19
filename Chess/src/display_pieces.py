@@ -20,15 +20,21 @@ def initial_position(board):
 
     for i in range(2):
         board[0 + 7 * i][0].set_type('black', 'T')
+        board[0 + 7 * i][0].id = i
         board[1 + 5 * i][0].set_type('black', 'H')
+        board[1 + 5 * i][0].id = i
         board[2 + 3 * i][0].set_type('black', 'B')
+        board[2 + 3 * i][0].id = i
         board[3][0].set_type('black', 'Q')
         board[4][0].set_type('black', 'K')
 
     for i in range(2):
         board[0 + 7 * i][7].set_type('white', 'T')
+        board[0 + 7 * i][7].id = i
         board[1 + 5 * i][7].set_type('white', 'H')
+        board[1 + 5 * i][7].id = i
         board[2 + 3 * i][7].set_type('white', 'B')
+        board[2 + 3 * i][7].id = i
         board[3][7].set_type('white', 'Q')
         board[4][7].set_type('white', 'K')
 

@@ -1,5 +1,10 @@
 import load_images
 import circles
+import debugging
+import move_record
+
+
+record = move_record.Record()
 
 
 class Piece:
@@ -14,6 +19,7 @@ class Piece:
         # Piece properties
         self.color = None
         self.type = 'empty'
+        self.id = 2
         # Window piece position
         self.x = 0
         self.y = 0
@@ -29,6 +35,9 @@ class Piece:
         self.selected = False
         # true if the pawn moved twice
         self.en_passand = False
+        self.dir = None
+        # True if the king has castle
+        self.castle = None
 
     # <<<<<<<<<<
     #   This sets the piece properties
@@ -39,6 +48,10 @@ class Piece:
             self.type = new_type
             self.image, self.image_margin = load_images.select(self.color, new_type,
                                                                self.width, self.height)
+            if self.type in ('p', 'pawn') and self.color == 'white':
+                self.dir = -1
+            elif self.type in ('p', 'pawn'):
+                self.dir = 1
         elif new_type == 'empty':
             self.type = new_type
 
@@ -457,6 +470,25 @@ class Piece:
                             circle.draw('red', self.i + 1, self.j)
                             posible_movements[self.i + 1][self.j] = True
 
+                # Castle movement
+                if not record.is_in_record(self.type, self.id, self.color):
+                    print(self.king_movement_allowed(board, self.i + 2, self.j), self.king_movement_allowed(board, self.i + 2, self.j))
+                    if (board[self.i - 2][self.j].type == 'empty'
+                       and board[self.i - 1][self.j].type == 'empty'
+                       and self.king_movement_allowed(board, self.i - 2, self.j)
+                       and self.king_movement_allowed(board, self.i - 1, self.j)
+                       and not record.is_in_record('T', 0, self.color)):
+                        circle.draw(self.color, self.i - 2, self.j)
+                        posible_movements[self.i - 2][self.j] = True
+                    elif (board[self.i + 2][self.j].type == 'empty'
+                       and board[self.i + 1][self.j].type == 'empty'
+                       and self.king_movement_allowed(board, self.i + 2, self.j)
+                       and self.king_movement_allowed(board, self.i + 1, self.j)
+                       and not record.is_in_record('T', 1, self.color)):
+                        circle.draw(self.color, self.i + 2, self.j)
+                        posible_movements[self.i + 2][self.j] = True
+
+
             return posible_movements
 
         return None
@@ -465,76 +497,131 @@ class Piece:
         # Metodo que realiza el movimiento de la pieza
     # >>>>>>>>>>
     def king_movement_allowed(self, board, i, j):
+        # Flags
+        d1, d2, d3, d4 = True, True, True, True
+        L1, L2, L3, L4 = True, True, True, True
+
         for x in range(1, 8):
-            # Flags
-            d1, d2, d3, d4 = True, True, True, True
-            L1, L2, L3, L4 = True, True, True, True
             # Diagonals
-            if (i + x * - 1 >= 0 and j + x * - 1 >= 0
-               and board[i + x * - 1][j + x * - 1].color != self.color):
-                if board[i + x * - 1][j + x * - 1].type in ('Q', 'B', 'K', 'king', 'queen', 'bishop'):
-                    return False
-                elif board[i + x * - 1][j + x * - 1].type in ('p', 'pawn') and x == 1:
-                    return False
-            if (i + x <= 7 and j + x * - 1 >= 0
-               and board[i + x][j + x * - 1].color != self.color):
-                if board[i + x][j + x * - 1].type in ('Q', 'B', 'K', 'king', 'queen', 'bishop'):
-                    return False
-                elif board[i + x][j + x * - 1].type in ('p', 'pawn') and board[i][j].color != self.color and x == 1:
-                    return False
-            if (i + x * - 1 >= 0 and j + x <= 7
-               and board[i + x * - 1][j + x].color != self.color):
-                if board[i + x * - 1][j + x].type in ('Q', 'B', 'K', 'king', 'queen', 'bishop'):
-                    return False
-            if (i + x <= 7 and j + x <= 7
-               and board[i + x][j + x].color != self.color):
-                if board[i + x][j + x].type in ('Q', 'B', 'K', 'king', 'queen', 'bishop'):
-                    return False
+            if i + x * - 1 >= 0 and j + x * - 1 >= 0 and d1:
+                if board[i + x * - 1][j + x * - 1].color != self.color:
+                    if (board[i + x * - 1][j + x * - 1].type in ('Q', 'B', 'queen', 'bishop')
+                       or (board[i + x * - 1][j + x * - 1].type in ('K', 'king') and x == 1)):
+                        print('1' + str(x) + str(i) + str(j))
+                        return False
+                    elif (board[i + x * - 1][j + x * - 1].type in ('p', 'pawn')
+                         and board[i + x * - 1][j + x * - 1].dir == 1
+                         and x == 1):
+                        print('2' + str(x) + str(i) + str(j))
+                        return False
+                if board[i + x * - 1][j + x * - 1].type in ('T', 'p', 'K', 'king', 'tower', 'pawn'):
+                    d1 = False
+            if i + x <= 7 and j + x * - 1 >= 0 and d2:
+                if board[i + x][j + x * - 1].color != self.color:
+                    if (board[i + x][j + x * - 1].type in ('Q', 'B', 'queen', 'bishop')
+                       or (board[i + x][j + x * - 1].type in ('K', 'king') and x == 1)):
+                        print('3' + str(x) + str(i) + str(j))
+                        return False
+                    elif (board[i + x][j + x * - 1].type in ('p', 'pawn') 
+                         and board[i + x][j + x * - 1].dir == 1
+                         and x == 1):
+                        print('4' + str(x) + str(i) + str(j))
+                        return False
+                if board[i + x][j + x * - 1].type in ('T', 'p', 'K', 'king', 'tower', 'pawn'):
+                    d2 = False
+            if i + x * - 1 >= 0 and j + x <= 7 and d3:
+                if board[i + x * - 1][j + x].color != self.color:
+                    if (board[i + x * - 1][j + x].type in ('Q', 'B', 'queen', 'bishop')
+                       or (board[i + x * - 1][j + x].type in ('K', 'king') and x == 1)):
+                        print('5' + str(x) + str(i) + str(j))
+                        return False
+                    elif (board[i + x * - 1][j + x].type in ('p', 'pawn') 
+                         and board[i + x * - 1][j + x].dir == -1
+                         and x == 1):
+                        print('6' + str(x) + str(i) + str(j))
+                        return False
+                if board[i + x * - 1][j + x].type in ('T', 'p', 'K', 'king', 'tower', 'pawn'):
+                    d3 = False
+            if i + x <= 7 and j + x <= 7 and d4:
+                if board[i + x][j + x].color != self.color:
+                    if (board[i + x][j + x].type in ('Q', 'B', 'queen', 'bishop')
+                       or (board[i + x][j + x].type in ('K', 'king') and x == 1)):
+                        print('7' + str(x) + str(i) + str(j))
+                        return False
+                    elif (board[i + x][j + x].type in ('p', 'pawn') 
+                         and board[i + x][j + x].dir == -1
+                         and x == 1):
+                        print('8' + str(x) + str(i) + str(j))
+                        return False
+                if board[i + x][j + x].type in ('T', 'p', 'K', 'king', 'tower', 'pawn'):
+                    d4 = False
+
             # Lines
-            if i - x >= 0 and board[i + x][j].color != self.color:
-                if board[i - x][j].type in ('T', 'Q', 'K', 'king', 'tower', 'queen'):
+            if i - x >= 0 and L1:
+                if ((board[i - x][j].type in ('T', 'Q', 'tower', 'queen')
+                   or (board[i - x][j].type in ('K', 'king') and x == 1))
+                   and board[i - x][j].color != self.color):
+                    print('9' + str(x) + str(i) + str(j))
                     return False
-            if j - x >= 0 and board[i][j - x].color != self.color:
-                if board[i][j - x].type in ('T', 'Q', 'K', 'king', 'tower', 'queen'):
+                if board[i - x][j].type in ('B', 'p', 'K', 'king', 'bishop', 'pawn'):
+                    L1 = False
+            if j - x >= 0 and L2: 
+                if ((board[i][j - x].type in ('T', 'Q', 'tower', 'queen')
+                   or (board[i][j - x].type in ('K', 'king') and x == 1))
+                   and board[i][j - x].color != self.color):
+                    print('10' + str(x) + str(i) + str(j))
                     return False
-            if i + x <= 7 and board[i + x][j].color != self.color:
-                if board[i + x][j].type in ('T', 'Q', 'K', 'king', 'tower', 'queen'):
+                if board[i][j - x].type in ('B', 'p', 'K', 'king', 'bishop', 'pawn'):
+                    L2 = False
+            if i + x <= 7 and L3:
+                if ((board[i + x][j].type in ('T', 'Q', 'tower', 'queen')
+                   or (board[i + x][j].type in ('K', 'king') and x == 1))
+                   and board[i + x][j].color != self.color):
+                    print('11' + str(x) + str(i) + str(j))
                     return False
-            if j + x <= 7 and board[i][j + x].color != self.color:
-                if board[i][j + x].type in ('T', 'Q', 'K', 'king', 'tower', 'queen'):
+                if board[i + x][j].type in ('B', 'p', 'K', 'king', 'bishop', 'pawn'):
+                    L3 = False
+            if j + x <= 7 and L4:
+                if ((board[i][j + x].type in ('T', 'Q', 'tower', 'queen')
+                   or (board[i][j + x].type in ('K', 'king') and x == 1))
+                   and board[i][j + x].color != self.color):
+                    print('12' + str(x) + str(i) + str(j))
                     return False
+                if board[i][j + x].type in ('B', 'p', 'K', 'king', 'bishop', 'pawn'):
+                    L4 = False
+
             # L moves
-            if (i - 2 >= 0 and j - 1 >= 0
-               and board[i - 2][j - 1].color != self.color):
-                if board[i - 2][j - 1].type in ('H', 'horse'):
+            if i - 2 >= 0 and j - 1 >= 0:
+                if (board[i - 2][j - 1].type in ('H', 'horse')
+                   and board[i - 2][j - 1].color != self.color):
                     return False
-            if (i - 2 >= 0 and j + 1 <= 7
-               and board[i - 2][j + 1].color != self.color):
-                if board[i - 2][j + 1].type in ('H', 'horse'):
+            if i - 2 >= 0 and j + 1 <= 7:
+                if (board[i - 2][j + 1].type in ('H', 'horse')
+                   and board[i - 2][j + 1].color != self.color):
                     return False
-            if (i - 1 >= 0 and j - 2 >= 0
-               and board[i - 1][j - 2].color != self.color):
-                if board[i - 1][j - 2].type in ('H', 'horse'):
+            if i - 1 >= 0 and j - 2 >= 0:
+                if (board[i - 1][j - 2].type in ('H', 'horse')
+                   and board[i - 1][j - 2].color != self.color):
                     return False
-            if (i + 1 <= 7 and j - 2 >= 0
-               and board[i + 1][j - 2].color != self.color):
-                if board[i + 1][j - 2].type in ('H', 'horse'):
+            if i + 1 <= 7 and j - 2 >= 0:
+                if (board[i + 1][j - 2].type in ('H', 'horse')
+                   and board[i + 1][j - 2].color != self.color):
                     return False
-            if (i + 2 <= 7 and j - 1 >= 0
-               and board[i + 2][j - 1].color != self.color):
-                if board[i + 2][j - 1].type in ('H', 'horse'):
+            if i + 2 <= 7 and j - 1 >= 0:
+                if (board[i + 2][j - 1].type in ('H', 'horse')
+                   and board[i + 2][j - 1].color != self.color):
                     return False
-            if (i + 2 <= 7 and j + 1 >= 0
-               and board[i + 2][j + 1].color != self.color):
-                if board[i + 2][j + 1].type in ('H', 'horse'):
+            if i + 2 <= 7 and j + 1 <= 7:
+                if (board[i + 2][j + 1].type in ('H', 'horse')
+                   and board[i + 2][j + 1].color != self.color):
                     return False
-            if (i - 1 >= 0 and j + 2 <= 7
-               and board[i - 1][j + 2].color != self.color):
-                if board[i - 1][j + 2].type in ('H', 'horse'):
+            if i - 1 >= 0 and j + 2 <= 7:
+                if (board[i - 1][j + 2].type in ('H', 'horse')
+                   and board[i - 1][j + 2].color != self.color):
                     return False
-            if (i + 1 <= 7 and j + 2 <= 7
-               and board[i + 1][j + 2].color != self.color):
-                if board[i + 1][j + 2].type in ('H', 'horse'):
+            if i + 1 <= 7 and j + 2 <= 7:
+                if (board[i + 1][j + 2].type in ('H', 'horse')
+                   and board[i + 1][j + 2].color != self.color):
                     return False
 
         return True
