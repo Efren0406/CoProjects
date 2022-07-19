@@ -126,52 +126,54 @@ while True:
             # Get the mouse coordenates on the board
             i = int((mouse_position[0] - MARGIN)//BOX_WIDTH)
             j = int((mouse_position[1] - MARGIN)//BOX_HEIGHT)
-            # When a permitted movement is clicked
-            if posible_movements[i][j] and se_piece[0]:
-                # Makes the piece movement
-                board[se_piece[1]][se_piece[2]].move(board, i, j)
-                record.add(board[se_piece[1]][se_piece[2]].type, board[se_piece[1]][se_piece[2]].id, i, j)
-                # Makes the en-passand capture if permitted
-                if board[se_piece[1]][se_piece[2]].type in ('p', 'pawn'):
-                    if abs(se_piece[2] - j) == 2:
-                        board[i][j].en_passand = True
-                    if (board[i][j + (1 if board[se_piece[1]][se_piece[2]].color == 'white' else -1)].en_passand
-                       and board[i][j + (1 if board[se_piece[1]][se_piece[2]].color == 'white' else -1)].color != board[se_piece[1]][se_piece[2]].color):
-                        board[i][j + (1 if board[se_piece[1]][se_piece[2]].color == 'white' else -1)].set_type('white', 'empty')
-                board[se_piece[1]][se_piece[2]].set_type('white', 'empty')
-                board[pr_piece[0]][pr_piece[1]].select()
-                # Change the player turn
-                if turns['color'] == 'white':
-                    turns['color'] = 'black'
-                else:
-                    turns['color'] = 'white'
-                turns['number'] += 1
-                turns['previous move'] = i, j
-                # Restore the allowed movements
-                posible_movements = [
-                                        [False for x in range(8)]
-                                        for y in range(8)
-                                    ]
-            # Just cange select a piece if it's its color turn
-            if turns['color'] == board[i][j].color:
-                # Select or deselect the clicked piece
-                if (pr_piece in ((-1, -1), (i, j))
-                   or not board[pr_piece[0]][pr_piece[1]].selected):
-                    pr_piece = i, j
-                    se_piece[0] = board[i][j].select()
-                    se_piece[1] = i
-                    se_piece[2] = j
-                # Deselect the piece if other's clicked
-                elif pr_piece != (i, j):
+            if (mouse_position[0] <= SIZE - MARGIN
+               and mouse_position[0] >= MARGIN
+               and mouse_position[1] <= SIZE - MARGIN
+               and mouse_position[1] >= MARGIN):
+                # When a permitted movement is clicked
+                if posible_movements[i][j] and se_piece[0]:
+                    # Makes the piece movement
+                    board[se_piece[1]][se_piece[2]].move(board, i, j)
+                    record.add(board[se_piece[1]][se_piece[2]].type, board[se_piece[1]][se_piece[2]].id, i, j)
+                    # Makes the en-passand capture if permitted
+                    if board[se_piece[1]][se_piece[2]].type in ('p', 'pawn'):
+                        if abs(se_piece[2] - j) == 2:
+                            board[i][j].en_passand = True
+                        if (board[i][j + (1 if board[se_piece[1]][se_piece[2]].color == 'white' else -1)].en_passand
+                           and board[i][j + (1 if board[se_piece[1]][se_piece[2]].color == 'white' else -1)].color != board[se_piece[1]][se_piece[2]].color):
+                            board[i][j + (1 if board[se_piece[1]][se_piece[2]].color == 'white' else -1)].set_type('white', 'empty')
+                    board[se_piece[1]][se_piece[2]].set_type('white', 'empty')
                     board[pr_piece[0]][pr_piece[1]].select()
-                    board[i][j].select()
-                    se_piece[0] = board[i][j].select()
-                    se_piece[1] = i
-                    se_piece[2] = j
-                    previous_piece = i, j
+                    # Change the player turn
+                    if turns['color'] == 'white':
+                        turns['color'] = 'black'
+                    else:
+                        turns['color'] = 'white'
+                    turns['number'] += 1
+                    turns['previous move'] = i, j
+                    # Restore the allowed movements
+                    posible_movements = [
+                                            [False for x in range(8)]
+                                            for y in range(8)
+                                        ]
+                # Just cange select a piece if it's its color turn
+                if turns['color'] == board[i][j].color:
+                    # Select or deselect the clicked piece
+                    if (pr_piece in ((-1, -1), (i, j))
+                       or not board[pr_piece[0]][pr_piece[1]].selected):
+                        pr_piece = i, j
+                        se_piece[0] = board[i][j].select()
+                        se_piece[1] = i
+                        se_piece[2] = j
+                    # Deselect the piece if other's clicked
+                    elif pr_piece != (i, j):
+                        board[pr_piece[0]][pr_piece[1]].select()
+                        board[i][j].select()
+                        se_piece[0] = board[i][j].select()
+                        se_piece[1] = i
+                        se_piece[2] = j
+                        previous_piece = i, j
 
-    debugging.debug(record.is_in_record(board[se_piece[1]][se_piece[2]].type, board[se_piece[1]][se_piece[2]].id, board[se_piece[1]][se_piece[2]].color))
-    debugging.debug((board[se_piece[1]][se_piece[2]].type, board[se_piece[1]][se_piece[2]].id, board[se_piece[1]][se_piece[2]].color), 10, 10)
     # Upgrades the board and show the allow movements
     draw_board()
     posible_movements = display_pieces.display(board, turns, posible_movements)

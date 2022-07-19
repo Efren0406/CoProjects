@@ -52,6 +52,11 @@ class Piece:
                 self.dir = -1
             elif self.type in ('p', 'pawn'):
                 self.dir = 1
+
+            if self.type in ('B', 'H', 'T', 'bishop', 'tower', 'horse'):
+                self.id = id
+            elif self.type in ('Q', 'K', 'p', 'pawn', 'king', 'queen'):
+                self.id = 2
         elif new_type == 'empty':
             self.type = new_type
 
@@ -471,16 +476,18 @@ class Piece:
                             posible_movements[self.i + 1][self.j] = True
 
                 # Castle movement
+                print(self.type, self.id, self.color)
+                print(not record.is_in_record('K', 2, 'white'))
                 if not record.is_in_record(self.type, self.id, self.color):
-                    print(self.king_movement_allowed(board, self.i + 2, self.j), self.king_movement_allowed(board, self.i + 2, self.j))
-                    if (board[self.i - 2][self.j].type == 'empty'
+                    if (board[self.i - 3][self.j].type == 'empty'
+                       and board[self.i - 2][self.j].type == 'empty'
                        and board[self.i - 1][self.j].type == 'empty'
                        and self.king_movement_allowed(board, self.i - 2, self.j)
                        and self.king_movement_allowed(board, self.i - 1, self.j)
                        and not record.is_in_record('T', 0, self.color)):
                         circle.draw(self.color, self.i - 2, self.j)
                         posible_movements[self.i - 2][self.j] = True
-                    elif (board[self.i + 2][self.j].type == 'empty'
+                    if (board[self.i + 2][self.j].type == 'empty'
                        and board[self.i + 1][self.j].type == 'empty'
                        and self.king_movement_allowed(board, self.i + 2, self.j)
                        and self.king_movement_allowed(board, self.i + 1, self.j)
@@ -507,12 +514,10 @@ class Piece:
                 if board[i + x * - 1][j + x * - 1].color != self.color:
                     if (board[i + x * - 1][j + x * - 1].type in ('Q', 'B', 'queen', 'bishop')
                        or (board[i + x * - 1][j + x * - 1].type in ('K', 'king') and x == 1)):
-                        print('1' + str(x) + str(i) + str(j))
                         return False
                     elif (board[i + x * - 1][j + x * - 1].type in ('p', 'pawn')
                          and board[i + x * - 1][j + x * - 1].dir == 1
                          and x == 1):
-                        print('2' + str(x) + str(i) + str(j))
                         return False
                 if board[i + x * - 1][j + x * - 1].type in ('T', 'p', 'K', 'king', 'tower', 'pawn'):
                     d1 = False
@@ -520,12 +525,10 @@ class Piece:
                 if board[i + x][j + x * - 1].color != self.color:
                     if (board[i + x][j + x * - 1].type in ('Q', 'B', 'queen', 'bishop')
                        or (board[i + x][j + x * - 1].type in ('K', 'king') and x == 1)):
-                        print('3' + str(x) + str(i) + str(j))
                         return False
                     elif (board[i + x][j + x * - 1].type in ('p', 'pawn') 
                          and board[i + x][j + x * - 1].dir == 1
                          and x == 1):
-                        print('4' + str(x) + str(i) + str(j))
                         return False
                 if board[i + x][j + x * - 1].type in ('T', 'p', 'K', 'king', 'tower', 'pawn'):
                     d2 = False
@@ -533,12 +536,10 @@ class Piece:
                 if board[i + x * - 1][j + x].color != self.color:
                     if (board[i + x * - 1][j + x].type in ('Q', 'B', 'queen', 'bishop')
                        or (board[i + x * - 1][j + x].type in ('K', 'king') and x == 1)):
-                        print('5' + str(x) + str(i) + str(j))
                         return False
                     elif (board[i + x * - 1][j + x].type in ('p', 'pawn') 
                          and board[i + x * - 1][j + x].dir == -1
                          and x == 1):
-                        print('6' + str(x) + str(i) + str(j))
                         return False
                 if board[i + x * - 1][j + x].type in ('T', 'p', 'K', 'king', 'tower', 'pawn'):
                     d3 = False
@@ -546,12 +547,10 @@ class Piece:
                 if board[i + x][j + x].color != self.color:
                     if (board[i + x][j + x].type in ('Q', 'B', 'queen', 'bishop')
                        or (board[i + x][j + x].type in ('K', 'king') and x == 1)):
-                        print('7' + str(x) + str(i) + str(j))
                         return False
                     elif (board[i + x][j + x].type in ('p', 'pawn') 
                          and board[i + x][j + x].dir == -1
                          and x == 1):
-                        print('8' + str(x) + str(i) + str(j))
                         return False
                 if board[i + x][j + x].type in ('T', 'p', 'K', 'king', 'tower', 'pawn'):
                     d4 = False
@@ -561,7 +560,6 @@ class Piece:
                 if ((board[i - x][j].type in ('T', 'Q', 'tower', 'queen')
                    or (board[i - x][j].type in ('K', 'king') and x == 1))
                    and board[i - x][j].color != self.color):
-                    print('9' + str(x) + str(i) + str(j))
                     return False
                 if board[i - x][j].type in ('B', 'p', 'K', 'king', 'bishop', 'pawn'):
                     L1 = False
@@ -569,7 +567,6 @@ class Piece:
                 if ((board[i][j - x].type in ('T', 'Q', 'tower', 'queen')
                    or (board[i][j - x].type in ('K', 'king') and x == 1))
                    and board[i][j - x].color != self.color):
-                    print('10' + str(x) + str(i) + str(j))
                     return False
                 if board[i][j - x].type in ('B', 'p', 'K', 'king', 'bishop', 'pawn'):
                     L2 = False
@@ -577,7 +574,6 @@ class Piece:
                 if ((board[i + x][j].type in ('T', 'Q', 'tower', 'queen')
                    or (board[i + x][j].type in ('K', 'king') and x == 1))
                    and board[i + x][j].color != self.color):
-                    print('11' + str(x) + str(i) + str(j))
                     return False
                 if board[i + x][j].type in ('B', 'p', 'K', 'king', 'bishop', 'pawn'):
                     L3 = False
@@ -585,7 +581,6 @@ class Piece:
                 if ((board[i][j + x].type in ('T', 'Q', 'tower', 'queen')
                    or (board[i][j + x].type in ('K', 'king') and x == 1))
                    and board[i][j + x].color != self.color):
-                    print('12' + str(x) + str(i) + str(j))
                     return False
                 if board[i][j + x].type in ('B', 'p', 'K', 'king', 'bishop', 'pawn'):
                     L4 = False

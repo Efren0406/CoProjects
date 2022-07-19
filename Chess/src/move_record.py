@@ -15,7 +15,7 @@ class Record:
             move = move_record[i]
             if (move[0] == piece[0] and color == 'white'
                and str(id) == move[1]
-               and not i%2):
+               and i%2):
                 return True
             elif (move[0] == piece[0] and color == 'black'
                and str(id) == move[1]
