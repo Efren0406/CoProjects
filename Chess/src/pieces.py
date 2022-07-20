@@ -476,8 +476,6 @@ class Piece:
                             posible_movements[self.i + 1][self.j] = True
 
                 # Castle movement
-                print(self.type, self.id, self.color)
-                print(not record.is_in_record('K', 2, 'white'))
                 if not record.is_in_record(self.type, self.id, self.color):
                     if (board[self.i - 3][self.j].type == 'empty'
                        and board[self.i - 2][self.j].type == 'empty'
