@@ -1,0 +1,6 @@
+- [ ] Agregar jaque al rey
+- [ ] Agregar jaque mate
+- [ ] | Opcional | Agregar menu de historial de movimietos
+- [ ] Agregar opcion de deshacer movimiento
+- [ ] Optimizar el codigo
+- [X] Completar movimientos de las piezas
